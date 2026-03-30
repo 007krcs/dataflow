@@ -1,0 +1,17 @@
+{
+  "name": "dataflow-monorepo",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev":         "pnpm --filter @dataflow/demo dev",
+    "build":       "pnpm --filter @dataflow/core build && pnpm --filter @dataflow/react build",
+    "build:demo":  "pnpm --filter @dataflow/demo build",
+    "build:all":   "pnpm build && pnpm build:demo",
+    "test":        "pnpm --filter @dataflow/core test",
+    "lint":        "tsc -p tsconfig.base.json --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}
