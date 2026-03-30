@@ -254,8 +254,23 @@ packages/
         AnomalyPanel.tsx
 
 demo/             # Interactive Vite + React demo app
-docs/             # Architecture and API docs
+docs/             # Full documentation (7 guides)
+e2e/              # Playwright E2E tests (273 tests)
 ```
+
+---
+
+## Documentation
+
+| Guide | What's covered |
+|-------|---------------|
+| [Getting Started](./docs/GETTING_STARTED.md) | Install, first stream in 5 min, core concepts |
+| [Adapters](./docs/ADAPTERS.md) | All 5 adapters — config, auth, reconnection, message formats |
+| [React API](./docs/REACT_API.md) | `useStream`, `useStreamMetrics`, `useAnomaly`, all components, recipes |
+| [Anomaly Detection](./docs/ANOMALY_DETECTION.md) | Z-score, IQR, MAD explained, tuning guide, rolling window internals |
+| [Architecture](./docs/ARCHITECTURE.md) | Pipeline design, class diagram, performance benchmarks |
+| [Configuration](./docs/CONFIGURATION.md) | Every config option with types, defaults, and real-world examples |
+| [Backpressure](./docs/BACKPRESSURE.md) | Ring buffer, rAF scheduler, drop strategies, memory sizing |
 
 ---
 
