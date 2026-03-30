@@ -1,0 +1,17 @@
+{
+  "name": "@dataflow/e2e",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test":        "playwright test",
+    "test:ui":     "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "test:debug":  "playwright test --debug",
+    "test:report": "playwright show-report",
+    "install:browsers": "playwright install --with-deps chromium firefox"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0"
+  }
+}
