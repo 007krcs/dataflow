@@ -2,12 +2,12 @@ import React from 'react';
 import type { StreamStatus } from '../../../packages/core/src/index.js';
 
 const STATUS_LABELS: Record<StreamStatus, string> = {
-  disconnected: 'Disconnected', connecting: 'Connecting…',
-  connected: 'Live', error: 'Error', paused: 'Paused',
+  disconnected: 'Disconnected', connecting: 'Connecting…', reconnecting: 'Reconnecting…',
+  connected: 'Live', error: 'Error', paused: 'Paused', closed: 'Closed',
 };
 const STATUS_COLORS: Record<StreamStatus, string> = {
-  disconnected: '#6b7280', connecting: '#f59e0b',
-  connected: '#10b981', error: '#ef4444', paused: '#8b5cf6',
+  disconnected: '#6b7280', connecting: '#f59e0b', reconnecting: '#f59e0b',
+  connected: '#10b981', error: '#ef4444', paused: '#8b5cf6', closed: '#6b7280',
 };
 
 export function ConnectionBadge({ status, latencyMs }: { status: StreamStatus; latencyMs?: number }) {

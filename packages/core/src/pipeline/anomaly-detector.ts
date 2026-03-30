@@ -14,7 +14,6 @@
 import type {
   AnomalyConfig,
   AnomalyEvent,
-  AnomalyMethod,
   AnomalySeverity,
   AnomalyStats,
   CellValue,

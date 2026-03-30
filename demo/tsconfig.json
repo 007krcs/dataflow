@@ -8,6 +8,8 @@
     "strict": true,
     "noEmit": true,
     "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
+    "types": ["node"],
     "paths": {
       "@dataflow/core": ["../packages/core/src/index.ts"]
     }
