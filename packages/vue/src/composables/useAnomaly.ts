@@ -1,0 +1,40 @@
+/**
+ * useAnomaly — Composable that accumulates anomaly events from a stream.
+ *
+ * Keeps the last `maxEvents` anomaly events in a reactive ref.
+ * Provides helpers to clear, filter by severity, and get counts.
+ *
+ * Usage:
+ *   const { anomalies, criticalCount, clear } = useAnomaly(myStream.anomalies);
+ */
+
+import { computed, type Ref, type ShallowRef } from 'vue';
+import type { AnomalyEvent, AnomalySeverity } from '@dataflow/core';
+
+export interface UseAnomalyResult {
+  /** Reactive ref to all accumulated anomaly events (newest last) */
+  anomalies:     ShallowRef<AnomalyEvent[]> | Ref<AnomalyEvent[]>;
+  /** Count of anomalies per severity */
+  criticalCount: ReturnType<typeof computed<number>>;
+  warningCount:  ReturnType<typeof computed<number>>;
+  infoCount:     ReturnType<typeof computed<number>>;
+  totalCount:    ReturnType<typeof computed<number>>;
+  /** Filter to a specific severity */
+  bySeverity:    (severity: AnomalySeverity) => AnomalyEvent[];
+  /** Filter to a specific column */
+  byColumn:      (columnId: string) => AnomalyEvent[];
+}
+
+export function useAnomaly(
+  anomalies: ShallowRef<AnomalyEvent[]> | Ref<AnomalyEvent[]>,
+): UseAnomalyResult {
+  const criticalCount = computed(() => anomalies.value.filter((e) => e.severity === 'critical').length);
+  const warningCount  = computed(() => anomalies.value.filter((e) => e.severity === 'warning').length);
+  const infoCount     = computed(() => anomalies.value.filter((e) => e.severity === 'info').length);
+  const totalCount    = computed(() => anomalies.value.length);
+
+  const bySeverity = (severity: AnomalySeverity) => anomalies.value.filter((e) => e.severity === severity);
+  const byColumn   = (columnId: string)           => anomalies.value.filter((e) => e.columnId === columnId);
+
+  return { anomalies, criticalCount, warningCount, infoCount, totalCount, bySeverity, byColumn };
+}

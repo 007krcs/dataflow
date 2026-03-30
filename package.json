@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev":         "pnpm --filter @dataflow/demo dev",
-    "build":       "pnpm --filter @dataflow/core build && pnpm --filter @dataflow/react build",
+    "build":       "pnpm --filter @dataflow/core build && pnpm --filter @dataflow/react build && pnpm --filter @dataflow/vue build && pnpm --filter @dataflow/svelte build",
     "build:demo":  "pnpm --filter @dataflow/demo build",
     "build:all":   "pnpm build && pnpm build:demo",
     "test":        "pnpm --filter @dataflow/core test",

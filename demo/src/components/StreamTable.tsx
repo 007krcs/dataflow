@@ -21,11 +21,12 @@ interface Column {
 }
 
 interface StreamTableProps {
-  rows:     StreamRow[];
-  changes:  CellChange[];
-  columns:  Column[];
-  maxRows?: number;
-  idField?: string;
+  rows:        StreamRow[];
+  changes:     CellChange[];
+  columns:     Column[];
+  maxRows?:    number;
+  idField?:    string;
+  customCell?: (columnKey: string, value: unknown, row: StreamRow) => React.ReactNode | null;
 }
 
 type FlashState = Map<string, 'up' | 'down'>; // `${rowId}::${col}` → direction
@@ -39,7 +40,7 @@ function formatNumber(v: unknown, decimals = 2): string {
   return v.toFixed(decimals);
 }
 
-export function StreamTable({ rows, changes, columns, maxRows = 100, idField = 'id' }: StreamTableProps) {
+export function StreamTable({ rows, changes, columns, maxRows = 100, idField = 'id', customCell }: StreamTableProps) {
   const [sortKey, setSortKey] = useState<string | null>(null);
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc');
   const [flash, setFlash]     = useState<FlashState>(new Map());
@@ -122,6 +123,7 @@ export function StreamTable({ rows, changes, columns, maxRows = 100, idField = '
                   const flashKey = `${rowId}::${col.key}`;
                   const dir     = flash.get(flashKey);
                   const formatted = col.format ? col.format(val) : formatNumber(val);
+                  const custom = customCell ? customCell(col.key, val, row) : null;
                   return (
                     <td
                       key={col.key}
@@ -131,12 +133,12 @@ export function StreamTable({ rows, changes, columns, maxRows = 100, idField = '
                         dir === 'down' ? 'cell-down' : ''
                       }
                     >
-                      {col.colorize && typeof val === 'number' && (
-                        <span className={val >= 0 ? 'val-pos' : 'val-neg'}>
-                          {formatted}
-                        </span>
-                      )}
-                      {(!col.colorize) && formatted}
+                      {custom !== null && custom !== undefined
+                        ? custom
+                        : col.colorize && typeof val === 'number'
+                          ? <span className={val >= 0 ? 'val-pos' : 'val-neg'}>{formatted}</span>
+                          : formatted
+                      }
                     </td>
                   );
                 })}

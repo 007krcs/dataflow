@@ -18,6 +18,23 @@ export { RingBuffer }              from './pipeline/ring-buffer.js';
 export { BackpressureController }  from './pipeline/backpressure.js';
 export { DeltaCalculator }         from './pipeline/delta-calculator.js';
 export { AnomalyDetector }         from './pipeline/anomaly-detector.js';
+export { SustainedAnomalyDetector } from './pipeline/sustained-anomaly.js';
+export type { SustainedEvent, SustainedAnomalyOptions, SustainedType } from './pipeline/sustained-anomaly.js';
+
+// Schema utilities
+export { inferSchema, mergeSchemas, SchemaInferrer } from './schema/infer.js';
+export type { InferSchemaOptions }                   from './schema/infer.js';
+
+// Stream join utilities
+export { joinStreams, mergeStreams } from './join/stream-join.js';
+export type { JoinOptions, JoinResult, JoinStrategy } from './join/stream-join.js';
+
+// Time-travel replay
+export { StreamRecorder, ReplayPlayer }  from './replay/index.js';
+export type {
+  RecordedFrame, RecorderOptions,
+  PlayerState, PlayerCallbacks, PlayerOptions,
+} from './replay/index.js';
 
 // Types (re-export everything)
 export type {
@@ -26,6 +43,7 @@ export type {
   StreamRow,
   StreamColumn,
   StreamSchema,
+  ColumnType,
   StreamFrame,
   StreamMetrics,
   IStreamingEngine,

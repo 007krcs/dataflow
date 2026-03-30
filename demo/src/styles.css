@@ -228,3 +228,61 @@ html, body, #root { height: 100%; background: var(--bg); color: var(--text); fon
   .metric-bar { flex-wrap: wrap; }
   .main-content { padding: 12px; }
 }
+
+/* ── Charts ───────────────────────────────────────────────────────────────── */
+.chart-card {
+  background: var(--bg-2); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 14px 16px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.chart-title {
+  font-size: 13px; font-weight: 600; color: var(--text-2);
+  letter-spacing: 0.02em;
+}
+.chart-empty {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  color: var(--text-3); font-size: 13px;
+}
+.charts-grid {
+  display: grid; gap: 16px;
+  grid-template-columns: 1fr 1fr;
+}
+.charts-grid--3 {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.chart-full { grid-column: 1 / -1; }
+
+@media (max-width: 900px) {
+  .charts-grid, .charts-grid--3 { grid-template-columns: 1fr; }
+}
+
+/* ── Tabs ─────────────────────────────────────────────────────────────────── */
+.page-tabs {
+  display: flex; gap: 2px;
+  background: var(--bg-3); border-radius: var(--radius);
+  padding: 3px; width: fit-content;
+}
+.page-tab {
+  padding: 5px 14px; border-radius: 5px;
+  font-size: 12px; font-weight: 500; cursor: pointer;
+  background: transparent; border: none; color: var(--text-2);
+  transition: all 0.15s;
+}
+.page-tab:hover { color: var(--text); }
+.page-tab--active { background: var(--bg-2); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+
+/* ── Replay controls ──────────────────────────────────────────────────────── */
+.replay-bar {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg-2); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 10px 16px;
+}
+.replay-bar input[type=range] { flex: 1; accent-color: var(--accent); }
+.replay-label { font-size: 11px; color: var(--text-3); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.replay-btn {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--text-2); border-radius: 5px; padding: 4px 10px;
+  cursor: pointer; font-size: 12px; transition: all 0.15s;
+}
+.replay-btn:hover { background: var(--bg-3); color: var(--text); }
+.replay-btn--active { background: rgba(99,102,241,0.15); color: var(--accent-2); border-color: rgba(99,102,241,0.3); }
