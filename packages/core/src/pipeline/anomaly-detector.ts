@@ -17,6 +17,7 @@ import type {
   AnomalySeverity,
   AnomalyStats,
   CellValue,
+  ColumnThreshold,
   StreamRow,
 } from '../types.js';
 
@@ -76,18 +77,19 @@ function nextId(): string { return `anom-${++_idCounter}-${Date.now()}`; }
 
 export class AnomalyDetector {
   private readonly _windows = new Map<string, ColumnWindow>();
-  private readonly _cfg: Required<AnomalyConfig>;
+  private readonly _cfg: Required<Omit<AnomalyConfig, 'columnThresholds'>> & { columnThresholds: Record<string, ColumnThreshold> };
 
   constructor(config: AnomalyConfig = {}) {
     this._cfg = {
-      enabled: config.enabled ?? true,
-      methods: config.methods ?? ['zscore', 'iqr'],
-      zScoreThreshold: config.zScoreThreshold ?? 2.5,
-      iqrMultiplier: config.iqrMultiplier ?? 1.5,
-      windowSize: config.windowSize ?? 100,
-      columns: config.columns ?? [],
-      minSamples: config.minSamples ?? 20,
-      severityThresholds: config.severityThresholds ?? { warning: 2.5, critical: 4.0 },
+      enabled:             config.enabled             ?? true,
+      methods:             config.methods             ?? ['zscore', 'iqr'],
+      zScoreThreshold:     config.zScoreThreshold     ?? 2.5,
+      iqrMultiplier:       config.iqrMultiplier       ?? 1.5,
+      windowSize:          config.windowSize          ?? 100,
+      columns:             config.columns             ?? [],
+      minSamples:          config.minSamples          ?? 20,
+      severityThresholds:  config.severityThresholds  ?? { warning: 2.5, critical: 4.0 },
+      columnThresholds:    config.columnThresholds    ?? {},
     };
   }
 
@@ -197,6 +199,33 @@ export class AnomalyDetector {
             iqrDeviation: null,
             timestamp: ts,
             message: `${col} = ${value.toFixed(2)} MAD-score ${madScore.toFixed(1)} (robust outlier)`,
+          });
+        }
+      }
+    }
+
+    if (methods.includes('threshold')) {
+      const bounds = this._cfg.columnThresholds[col];
+      if (bounds) {
+        const belowMin = bounds.min !== undefined && value < bounds.min;
+        const aboveMax = bounds.max !== undefined && value > bounds.max;
+        if ((belowMin || aboveMax) && !events.some((e) => e.columnId === col)) {
+          const direction = belowMin ? 'below' : 'above';
+          const bound     = belowMin ? bounds.min! : bounds.max!;
+          const deviation = Math.abs(value - bound);
+          const severity: AnomalySeverity = deviation > Math.abs(bound) * 0.5 ? 'critical' : 'warning';
+          events.push({
+            id: nextId(),
+            rowId,
+            columnId: col,
+            value,
+            stats,
+            severity,
+            method: 'threshold',
+            zScore: null,
+            iqrDeviation: null,
+            timestamp: ts,
+            message: `${col} = ${value.toFixed(2)} is ${direction} static bound (${direction === 'below' ? 'min' : 'max'}=${bound})`,
           });
         }
       }

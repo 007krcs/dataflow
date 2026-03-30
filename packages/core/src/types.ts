@@ -209,6 +209,11 @@ export interface AnomalyConfig {
   columns?: string[];
   minSamples?: number;
   severityThresholds?: { warning: number; critical: number };
+  /**
+   * Static min/max bounds per column for the 'threshold' method.
+   * Example: { temperature: { min: -10, max: 60 }, co2: { max: 2000 } }
+   */
+  columnThresholds?: Record<string, ColumnThreshold>;
 }
 
 // ─── Main Stream Config ───────────────────────────────────────────────────────
@@ -231,5 +236,19 @@ export interface IStreamingEngine {
 
   start(): void;
   stop(): void;
+  /** Pause delivery to UI without disconnecting the adapter. Buffer keeps filling. */
+  pause(): void;
+  /** Resume delivery after pause. Drains buffered rows. */
+  resume(): void;
   destroy(): void;
+  /** Get rolling-window statistics for a specific column (for external display). */
+  getAnomalyStats(column: string): AnomalyStats | null;
+  /** Reset throughput/drop/anomaly counters without restarting the stream. */
+  resetMetrics(): void;
+}
+
+/** Per-column threshold bounds for the 'threshold' anomaly method. */
+export interface ColumnThreshold {
+  min?: number;
+  max?: number;
 }

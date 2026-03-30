@@ -9,8 +9,10 @@
  *   2. requestAnimationFrame fires at the browser's refresh rate.
  *   3. On each frame, up to `rowsPerFrame` rows are drained and
  *      delivered to the consumer callback.
- *   4. If the buffer exceeds the high-water mark the drop strategy
- *      kicks in: evict 'oldest', 'newest', or take a 'sample'.
+ *   4. If the buffer exceeds capacity, the configured drop strategy kicks in:
+ *      - 'oldest'  — evict the oldest row (default, best for live data)
+ *      - 'newest'  — discard the incoming row (preserve existing sequence)
+ *      - 'sample'  — discard every other incoming row (50% temporal sample)
  *   5. Metrics track drop rate and buffer utilization.
  */
 
@@ -27,24 +29,55 @@ export class BackpressureController {
   private readonly _cfg: Required<BackpressureConfig>;
   private readonly _cb: BackpressureCallbacks;
 
-  private _rafId: number | null = null;
-  private _lastFlush = 0;
-  private _totalDropped = 0;
-  private _running = false;
+  private _rafId:        number | null = null;
+  private _lastFlush     = 0;
+  private _totalDropped  = 0;
+  private _running       = false;
+  private _sampleToggle  = false;  // for 'sample' strategy alternation
 
   constructor(config: BackpressureConfig, callbacks: BackpressureCallbacks) {
     this._cfg = {
-      maxBufferSize:    config.maxBufferSize    ?? 50_000,
-      targetFps:        config.targetFps        ?? 30,
-      dropStrategy:     config.dropStrategy     ?? 'oldest',
+      maxBufferSize:      config.maxBufferSize      ?? 50_000,
+      targetFps:          config.targetFps          ?? 30,
+      dropStrategy:       config.dropStrategy       ?? 'oldest',
       minFrameIntervalMs: config.minFrameIntervalMs ?? Math.floor(1000 / (config.targetFps ?? 30)),
     };
     this._buf = new RingBuffer<StreamRow>(this._cfg.maxBufferSize);
     this._cb  = callbacks;
   }
 
-  /** Push one row into the buffer. */
+  /** Push one row into the buffer, applying drop strategy if full. */
   push(row: StreamRow): void {
+    const strategy = this._cfg.dropStrategy;
+
+    if (strategy === 'newest') {
+      // Discard the incoming row when buffer is full (preserve existing sequence)
+      if (this._buf.isFull) {
+        this._totalDropped++;
+        this._cb.onDrop(1);
+        return;
+      }
+      this._buf.push(row);
+      return;
+    }
+
+    if (strategy === 'sample') {
+      // Accept every other row regardless of buffer state
+      this._sampleToggle = !this._sampleToggle;
+      if (!this._sampleToggle) {
+        this._totalDropped++;
+        this._cb.onDrop(1);
+        return;
+      }
+      const evicted = this._buf.push(row);
+      if (evicted !== undefined) {
+        this._totalDropped++;
+        this._cb.onDrop(1);
+      }
+      return;
+    }
+
+    // Default: 'oldest' — RingBuffer evicts oldest when full
     const evicted = this._buf.push(row);
     if (evicted !== undefined) {
       this._totalDropped++;
@@ -57,9 +90,9 @@ export class BackpressureController {
     for (const row of rows) this.push(row);
   }
 
-  get bufferSize(): number { return this._buf.size; }
+  get bufferSize(): number        { return this._buf.size; }
   get bufferUtilization(): number { return this._buf.utilization; }
-  get totalDropped(): number { return this._totalDropped; }
+  get totalDropped(): number      { return this._totalDropped; }
 
   /** Start the rAF loop. */
   start(): void {

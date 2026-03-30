@@ -39,6 +39,7 @@ export type {
   AnomalyMethod,
   AnomalySeverity,
   AnomalyStats,
+  ColumnThreshold,
 
   // Configs
   BackpressureConfig,
