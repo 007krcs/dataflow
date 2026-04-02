@@ -7,6 +7,6 @@ export default defineConfig({
   clean:    true,
   splitting: false,
   sourcemap: true,
-  external: ['react', 'react-dom', '@dataflow/core'],
+  external: ['react', 'react-dom', '@gridstorm/dataflow-core'],
   target:   'es2022',
 });

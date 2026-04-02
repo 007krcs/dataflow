@@ -7,7 +7,7 @@
  *
  * Usage (Svelte 5 runes):
  *   <script>
- *   import { createStream } from '@dataflow/svelte';
+ *   import { createStream } from '@gridstorm/dataflow-svelte';
  *   const stream = createStream({ adapter: { type: 'simulated', scenario: 'financial' } });
  *   // stream.rows, stream.status, stream.metrics, stream.anomalies are readable
  *   stream.start();
@@ -22,7 +22,7 @@
  */
 
 import { writable, derived, type Readable } from 'svelte/store';
-import { StreamingEngine } from '@dataflow/core';
+import { StreamingEngine } from '@gridstorm/dataflow-core';
 import type {
   StreamConfig,
   StreamRow,
@@ -30,7 +30,7 @@ import type {
   StreamMetrics,
   CellChange,
   AnomalyEvent,
-} from '@dataflow/core';
+} from '@gridstorm/dataflow-core';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 

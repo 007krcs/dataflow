@@ -10,7 +10,7 @@
  */
 
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { StreamingEngine }   from '@dataflow/core';
+import { StreamingEngine }   from '@gridstorm/dataflow-core';
 import type {
   StreamConfig,
   StreamRow,
@@ -18,7 +18,7 @@ import type {
   StreamMetrics,
   CellChange,
   AnomalyEvent,
-} from '@dataflow/core';
+} from '@gridstorm/dataflow-core';
 
 export interface UseStreamOptions {
   /** Max number of rows to keep in state (rolling window). Default: 500 */

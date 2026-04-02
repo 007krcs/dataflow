@@ -9,8 +9,8 @@
  */
 
 import { ref, onMounted, onUnmounted } from 'vue';
-import { StreamingEngine } from '@dataflow/core';
-import type { StreamConfig, StreamMetrics, StreamStatus } from '@dataflow/core';
+import { StreamingEngine } from '@gridstorm/dataflow-core';
+import type { StreamConfig, StreamMetrics, StreamStatus } from '@gridstorm/dataflow-core';
 
 export interface UseStreamMetricsResult {
   metrics: ReturnType<typeof ref<StreamMetrics>>;

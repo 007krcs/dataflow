@@ -9,7 +9,7 @@
  */
 
 import { computed, type ComputedRef, type Ref, type ShallowRef } from 'vue';
-import type { AnomalyEvent, AnomalySeverity } from '@dataflow/core';
+import type { AnomalyEvent, AnomalySeverity } from '@gridstorm/dataflow-core';
 
 export interface UseAnomalyResult {
   /** Reactive ref to all accumulated anomaly events (newest last) */

@@ -57,7 +57,7 @@ importers:
 
   packages/react:
     dependencies:
-      '@dataflow/core':
+      '@gridstorm/dataflow-core':
         specifier: workspace:*
         version: link:../core
       react:
@@ -82,7 +82,7 @@ importers:
 
   packages/svelte:
     dependencies:
-      '@dataflow/core':
+      '@gridstorm/dataflow-core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
@@ -98,7 +98,7 @@ importers:
 
   packages/vue:
     dependencies:
-      '@dataflow/core':
+      '@gridstorm/dataflow-core':
         specifier: workspace:*
         version: link:../core
     devDependencies:

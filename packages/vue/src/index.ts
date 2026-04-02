@@ -10,4 +10,4 @@ export type { UseAnomalyResult }                        from './composables/useA
 export type {
   StreamRow, StreamStatus, StreamMetrics, AnomalyEvent, CellChange,
   StreamConfig, SimulatedAdapterConfig, WebSocketAdapterConfig, SSEAdapterConfig,
-} from '@dataflow/core';
+} from '@gridstorm/dataflow-core';

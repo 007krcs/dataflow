@@ -9,14 +9,14 @@
  * Usage (Options API / Composition API / <script setup>):
  *
  *   <script setup>
- *   import { useStream } from '@dataflow/vue';
+ *   import { useStream } from '@gridstorm/dataflow-vue';
  *   const config = { adapter: { type: 'simulated', scenario: 'financial' } };
  *   const { rows, status, metrics, anomalies, start, stop } = useStream(config);
  *   </script>
  */
 
 import { ref, shallowRef, onMounted, onUnmounted } from 'vue';
-import { StreamingEngine } from '@dataflow/core';
+import { StreamingEngine } from '@gridstorm/dataflow-core';
 import type {
   StreamConfig,
   StreamRow,
@@ -24,7 +24,7 @@ import type {
   StreamMetrics,
   CellChange,
   AnomalyEvent,
-} from '@dataflow/core';
+} from '@gridstorm/dataflow-core';
 
 export interface UseStreamOptions {
   /** Maximum rows to keep in the reactive `rows` ref. Default: 500 */

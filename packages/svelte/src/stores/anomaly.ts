@@ -2,7 +2,7 @@
  * anomalyStore — Svelte store helpers for anomaly filtering and aggregation.
  *
  * Usage:
- *   import { createAnomalyStore } from '@dataflow/svelte';
+ *   import { createAnomalyStore } from '@gridstorm/dataflow-svelte';
  *   const stream = createStream(config);
  *   const anom = createAnomalyStore(stream.anomalies);
  *
@@ -11,7 +11,7 @@
  */
 
 import { derived, type Readable } from 'svelte/store';
-import type { AnomalyEvent } from '@dataflow/core';
+import type { AnomalyEvent } from '@gridstorm/dataflow-core';
 
 export interface AnomalyStoreResult {
   critical: Readable<AnomalyEvent[]>;

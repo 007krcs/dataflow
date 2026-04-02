@@ -1,6 +1,7 @@
 {
-  "name": "@dataflow/react",
-  "version": "0.3.0",
+  "name": "@gridstorm/dataflow-react",
+  "version": "0.3.1",
+  "homepage": "https://dataflow.tekivex.com",
   "description": "DataFlow React hooks and components for real-time streaming data",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -13,13 +14,13 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": ["dist"],
+  "files": ["dist", "README.md"],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch"
   },
   "dependencies": {
-    "@dataflow/core": "workspace:*"
+    "@gridstorm/dataflow-core": "workspace:*"
   },
   "peerDependencies": {
     "react": ">=18.0.0",

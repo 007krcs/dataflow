@@ -1,4 +1,4 @@
-import type { StreamStatus } from '@dataflow/core';
+import type { StreamStatus } from '@gridstorm/dataflow-core';
 
 interface ConnectionBadgeProps {
   status: StreamStatus;

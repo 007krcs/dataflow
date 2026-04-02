@@ -1,5 +1,5 @@
 /**
- * @dataflow/core — Public API surface
+ * @gridstorm/dataflow-core — Public API surface
  */
 
 // Engine

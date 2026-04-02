@@ -1,4 +1,4 @@
-import type { StreamMetrics } from '@dataflow/core';
+import type { StreamMetrics } from '@gridstorm/dataflow-core';
 
 interface MetricBarProps {
   metrics: StreamMetrics;

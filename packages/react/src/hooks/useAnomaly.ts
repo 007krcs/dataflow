@@ -4,8 +4,8 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
-import { StreamingEngine }  from '@dataflow/core';
-import type { StreamConfig, AnomalyEvent } from '@dataflow/core';
+import { StreamingEngine }  from '@gridstorm/dataflow-core';
+import type { StreamConfig, AnomalyEvent } from '@gridstorm/dataflow-core';
 
 export interface UseAnomalyResult {
   anomalies:  AnomalyEvent[];

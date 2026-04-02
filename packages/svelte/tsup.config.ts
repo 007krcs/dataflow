@@ -7,6 +7,6 @@ export default defineConfig({
   clean:    true,
   splitting: false,
   sourcemap: true,
-  external: ['svelte', 'svelte/store', '@dataflow/core'],
+  external: ['svelte', 'svelte/store', '@gridstorm/dataflow-core'],
   target:   'es2022',
 });

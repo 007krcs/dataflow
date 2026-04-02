@@ -1,4 +1,4 @@
-import type { AnomalyEvent } from '@dataflow/core';
+import type { AnomalyEvent } from '@gridstorm/dataflow-core';
 
 interface AnomalyPanelProps {
   anomalies: AnomalyEvent[];

@@ -7,6 +7,6 @@ export default defineConfig({
   clean:    true,
   splitting: false,
   sourcemap: true,
-  external: ['vue', '@dataflow/core'],
+  external: ['vue', '@gridstorm/dataflow-core'],
   target:   'es2022',
 });

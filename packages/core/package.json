@@ -1,6 +1,7 @@
 {
-  "name": "@dataflow/core",
-  "version": "0.3.0",
+  "name": "@gridstorm/dataflow-core",
+  "version": "0.3.1",
+  "homepage": "https://dataflow.tekivex.com",
   "description": "DataFlow core engine — streaming pipeline, adapters, anomaly detection",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -13,7 +14,7 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": ["dist"],
+  "files": ["dist", "README.md"],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",

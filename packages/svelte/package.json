@@ -1,6 +1,7 @@
 {
-  "name": "@dataflow/svelte",
-  "version": "0.3.0",
+  "name": "@gridstorm/dataflow-svelte",
+  "version": "0.3.1",
+  "homepage": "https://dataflow.tekivex.com",
   "description": "DataFlow Svelte 5 stores and runes for real-time streaming data",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -13,13 +14,13 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": ["dist"],
+  "files": ["dist", "README.md"],
   "scripts": {
     "build": "tsup",
     "dev":   "tsup --watch"
   },
   "dependencies": {
-    "@dataflow/core": "workspace:*"
+    "@gridstorm/dataflow-core": "workspace:*"
   },
   "peerDependencies": {
     "svelte": ">=5.0.0"
