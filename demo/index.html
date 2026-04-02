@@ -3,9 +3,123 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DataFlow — Real-Time Streaming Data Platform</title>
+
+  <!-- ── Primary Meta ──────────────────────────────────────────────────── -->
+  <title>DataFlow — Real-Time Streaming Data Platform | Tekivex</title>
+  <meta name="description" content="DataFlow is a zero-dependency open-source streaming engine: WebSocket, SSE, HTTP polling, and simulated adapters. Batched backpressure control, anomaly detection (Z-score, IQR, MAD), time-travel replay, schema auto-inference, and multi-stream join. React, Vue 3, Svelte 5 adapters. MIT-licensed." />
+  <meta name="keywords" content="real-time data streaming, WebSocket data grid, live data visualization, SSE streaming platform, real-time analytics, anomaly detection software, time-travel replay, streaming data JavaScript, DataFlow, Tekivex, open source streaming" />
+  <meta name="author" content="Tekivex" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="theme-color" content="#0f172a" />
+  <link rel="canonical" href="https://dataflow.tekivex.com/" />
+
+  <!-- ── Open Graph ─────────────────────────────────────────────────────── -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="DataFlow — Tekivex" />
+  <meta property="og:title" content="DataFlow — Real-Time Streaming Data Platform" />
+  <meta property="og:description" content="Zero-dependency real-time streaming engine with WebSocket, SSE, anomaly detection, time-travel replay, and React/Vue/Svelte adapters. MIT-licensed, free forever." />
+  <meta property="og:image" content="https://dataflow.tekivex.com/og-dataflow.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="DataFlow — Real-Time Streaming Platform" />
+  <meta property="og:url" content="https://dataflow.tekivex.com/" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- ── Twitter Card ───────────────────────────────────────────────────── -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@tekivex" />
+  <meta name="twitter:creator" content="@tekivex" />
+  <meta name="twitter:title" content="DataFlow — Real-Time Streaming Data Platform" />
+  <meta name="twitter:description" content="WebSocket + SSE streaming engine with anomaly detection, time-travel replay, and zero dependencies. Free, MIT-licensed." />
+  <meta name="twitter:image" content="https://dataflow.tekivex.com/og-dataflow.png" />
+  <meta name="twitter:image:alt" content="DataFlow Streaming Platform" />
+
+  <!-- ── Icons & Manifest ───────────────────────────────────────────────── -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta name="description" content="DataFlow: open-source real-time streaming data grid with anomaly detection, backpressure control, and multi-protocol adapters." />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <!-- ── Fonts ──────────────────────────────────────────────────────────── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- ── JSON-LD: SoftwareApplication ──────────────────────────────────── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "DataFlow",
+    "description": "Zero-dependency open-source real-time streaming data platform with WebSocket, SSE, HTTP polling, and simulated adapters. Features batched backpressure control, anomaly detection (Z-score, IQR, MAD), time-travel replay, schema auto-inference, and multi-stream join.",
+    "url": "https://dataflow.tekivex.com",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Tekivex",
+      "url": "https://tekivex.com"
+    },
+    "softwareVersion": "0.3.0",
+    "license": "https://opensource.org/licenses/MIT",
+    "featureList": [
+      "WebSocket, SSE, HTTP polling, and simulated streaming adapters",
+      "Batched rAF backpressure — configurable fps, drop strategies",
+      "Cell change direction tracking with colour flash animation",
+      "Anomaly detection — Z-score, IQR, MAD, and static threshold",
+      "Time-travel replay — record, seek, variable-speed playback",
+      "Schema auto-inference from live row samples",
+      "Multi-stream join (inner, left, outer) and N-stream merge",
+      "React hooks, Vue 3 composables, Svelte 5 store factory"
+    ],
+    "screenshot": "https://dataflow.tekivex.com/og-dataflow.png"
+  }
+  </script>
+
+  <!-- ── JSON-LD: WebSite ───────────────────────────────────────────────── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "DataFlow",
+    "url": "https://dataflow.tekivex.com",
+    "description": "Real-time streaming data platform by Tekivex — WebSocket, SSE, anomaly detection, time-travel.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Tekivex",
+      "url": "https://tekivex.com"
+    }
+  }
+  </script>
+
+  <!-- ── JSON-LD: BreadcrumbList ────────────────────────────────────────── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Tekivex",
+        "item": "https://tekivex.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "DataFlow",
+        "item": "https://dataflow.tekivex.com"
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <div id="root"></div>
