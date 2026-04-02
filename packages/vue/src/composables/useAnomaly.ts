@@ -8,17 +8,17 @@
  *   const { anomalies, criticalCount, clear } = useAnomaly(myStream.anomalies);
  */
 
-import { computed, type Ref, type ShallowRef } from 'vue';
+import { computed, type ComputedRef, type Ref, type ShallowRef } from 'vue';
 import type { AnomalyEvent, AnomalySeverity } from '@dataflow/core';
 
 export interface UseAnomalyResult {
   /** Reactive ref to all accumulated anomaly events (newest last) */
   anomalies:     ShallowRef<AnomalyEvent[]> | Ref<AnomalyEvent[]>;
   /** Count of anomalies per severity */
-  criticalCount: ReturnType<typeof computed<number>>;
-  warningCount:  ReturnType<typeof computed<number>>;
-  infoCount:     ReturnType<typeof computed<number>>;
-  totalCount:    ReturnType<typeof computed<number>>;
+  criticalCount: ComputedRef<number>;
+  warningCount:  ComputedRef<number>;
+  infoCount:     ComputedRef<number>;
+  totalCount:    ComputedRef<number>;
   /** Filter to a specific severity */
   bySeverity:    (severity: AnomalySeverity) => AnomalyEvent[];
   /** Filter to a specific column */

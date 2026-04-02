@@ -21,7 +21,7 @@
  *   onDestroy(() => stream.destroy());
  */
 
-import { readable, writable, derived, type Readable, type Writable } from 'svelte/store';
+import { writable, derived, type Readable } from 'svelte/store';
 import { StreamingEngine } from '@dataflow/core';
 import type {
   StreamConfig,

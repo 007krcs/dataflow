@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useStream }             from '../hooks/useStream.ts';
 import { StreamTable }           from '../components/StreamTable.tsx';
 import { MetricBar }             from '../components/MetricBar.tsx';

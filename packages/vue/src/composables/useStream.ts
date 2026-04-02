@@ -15,7 +15,7 @@
  *   </script>
  */
 
-import { ref, shallowRef, onMounted, onUnmounted, readonly } from 'vue';
+import { ref, shallowRef, onMounted, onUnmounted } from 'vue';
 import { StreamingEngine } from '@dataflow/core';
 import type {
   StreamConfig,

@@ -106,7 +106,7 @@ export class SustainedAnomalyDetector {
     this._runLength     = opts.runLength     ?? 4;
     this._burstCount    = opts.burstCount    ?? 6;
     this._burstWindowMs = opts.burstWindowMs ?? 10_000;
-    this._repeatRun     = opts.repeatRun     ?? false;
+    this._repeatRun     = opts.repeatRunEvents ?? false;
   }
 
   /**

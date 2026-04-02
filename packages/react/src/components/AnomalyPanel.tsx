@@ -1,4 +1,3 @@
-import React from 'react';
 import type { AnomalyEvent } from '@dataflow/core';
 
 interface AnomalyPanelProps {

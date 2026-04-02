@@ -1,4 +1,3 @@
-import React from 'react';
 import type { StreamMetrics } from '@dataflow/core';
 
 interface MetricBarProps {
