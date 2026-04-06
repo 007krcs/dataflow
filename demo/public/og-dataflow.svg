@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0b1e2d"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <filter id="softglow">
+      <feGaussianBlur stdDeviation="45" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <ellipse cx="180" cy="180" rx="320" ry="200" fill="#06b6d4" opacity="0.07" filter="url(#softglow)"/>
+  <ellipse cx="1080" cy="480" rx="260" ry="180" fill="#10b981" opacity="0.06" filter="url(#softglow)"/>
+
+  <!-- Top accent line -->
+  <rect x="0" y="0" width="1200" height="4" fill="url(#accent)"/>
+
+  <!-- RIGHT SIDE: Live streaming visual -->
+  <rect x="660" y="120" width="500" height="390" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Header -->
+  <rect x="660" y="120" width="500" height="44" rx="12" fill="#1e293b"/>
+  <rect x="660" y="148" width="500" height="16" fill="#1e293b"/>
+  <circle cx="686" cy="142" r="5" fill="#10b981"/>
+  <text x="700" y="147" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#34d399">LIVE</text>
+  <text x="730" y="147" font-family="Inter,sans-serif" font-size="12" fill="#64748b">— DataFlow Stream Monitor</text>
+  <line x1="660" y1="164" x2="1160" y2="164" stroke="#334155" stroke-width="1"/>
+
+  <!-- Stream line chart -->
+  <!-- Grid lines -->
+  <line x1="680" y1="220" x2="1140" y2="220" stroke="#1e293b" stroke-width="1" opacity="0.8"/>
+  <line x1="680" y1="270" x2="1140" y2="270" stroke="#1e293b" stroke-width="1" opacity="0.8"/>
+  <line x1="680" y1="320" x2="1140" y2="320" stroke="#1e293b" stroke-width="1" opacity="0.8"/>
+  <line x1="680" y1="370" x2="1140" y2="370" stroke="#1e293b" stroke-width="1" opacity="0.8"/>
+
+  <!-- Stream 1 (cyan) - websocket data -->
+  <polyline points="680,310 720,285 760,300 800,260 840,275 880,240 920,255 960,230 1000,245 1040,215 1080,225 1120,200 1140,205"
+    fill="none" stroke="#06b6d4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Stream 2 (green) - SSE data -->
+  <polyline points="680,340 720,355 760,335 800,360 840,330 880,345 920,315 960,340 1000,310 1040,325 1080,295 1120,315 1140,300"
+    fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,3"/>
+
+  <!-- Anomaly spike indicator -->
+  <circle cx="880" cy="240" r="8" fill="none" stroke="#f59e0b" stroke-width="2"/>
+  <circle cx="880" cy="240" r="3" fill="#f59e0b"/>
+  <text x="890" y="232" font-family="Inter,sans-serif" font-size="11" fill="#f59e0b">anomaly</text>
+
+  <!-- Live dot at end -->
+  <circle cx="1140" cy="205" r="5" fill="#06b6d4"/>
+  <circle cx="1140" cy="300" r="5" fill="#10b981"/>
+
+  <!-- Legend -->
+  <circle cx="690" cy="415" r="5" fill="#06b6d4"/>
+  <text x="702" y="419" font-family="Inter,sans-serif" font-size="12" fill="#94a3b8">WebSocket</text>
+  <circle cx="790" cy="415" r="5" fill="#10b981"/>
+  <text x="802" y="419" font-family="Inter,sans-serif" font-size="12" fill="#94a3b8">SSE Stream</text>
+  <circle cx="880" cy="415" r="5" fill="#f59e0b"/>
+  <text x="892" y="419" font-family="Inter,sans-serif" font-size="12" fill="#94a3b8">Anomaly</text>
+
+  <!-- Stats row -->
+  <rect x="660" y="440" width="150" height="56" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="735" y="463" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#64748b">EVENTS/SEC</text>
+  <text x="735" y="484" text-anchor="middle" font-family="Inter,sans-serif" font-size="18" font-weight="700" fill="#22d3ee">12,840</text>
+
+  <rect x="820" y="440" width="150" height="56" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="895" y="463" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#64748b">LATENCY</text>
+  <text x="895" y="484" text-anchor="middle" font-family="Inter,sans-serif" font-size="18" font-weight="700" fill="#34d399">&lt;8ms</text>
+
+  <rect x="980" y="440" width="150" height="56" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="1055" y="463" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#64748b">UPTIME</text>
+  <text x="1055" y="484" text-anchor="middle" font-family="Inter,sans-serif" font-size="18" font-weight="700" fill="#a78bfa">99.97%</text>
+
+  <!-- LEFT SIDE: Branding -->
+  <!-- Icon hex, center (140,185), r=88 -->
+  <polygon points="228,185 184,261 96,261 52,185 96,109 184,109" fill="#06b6d4" opacity="0.15" stroke="url(#accent)" stroke-width="2.5"/>
+  <!-- Flow arrows inside -->
+  <line x1="80" y1="185" x2="200" y2="185" stroke="#06b6d4" stroke-width="3" stroke-linecap="round"/>
+  <polyline points="182,170 200,185 182,200" fill="none" stroke="#06b6d4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="100" y1="160" x2="180" y2="160" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+  <line x1="100" y1="210" x2="180" y2="210" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+  <!-- Live pulse dot -->
+  <circle cx="140" cy="185" r="10" fill="#06b6d4" opacity="0.3"/>
+  <circle cx="140" cy="185" r="5" fill="#06b6d4"/>
+
+  <!-- Brand name -->
+  <text x="60" y="345" font-family="Inter,-apple-system,sans-serif" font-size="82" font-weight="800" fill="url(#accent)" letter-spacing="-2">DataFlow</text>
+
+  <!-- Tagline -->
+  <text x="62" y="392" font-family="Inter,sans-serif" font-size="22" font-weight="400" fill="#94a3b8">Real-time streaming data platform</text>
+
+  <!-- Divider -->
+  <rect x="62" y="415" width="460" height="2" fill="url(#accent)" opacity="0.35" rx="1"/>
+
+  <!-- Pills -->
+  <rect x="62" y="434" width="120" height="34" rx="17" fill="#06b6d4" fill-opacity="0.15" stroke="#06b6d4" stroke-opacity="0.5" stroke-width="1.5"/>
+  <text x="122" y="456" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#67e8f9">WebSocket</text>
+
+  <rect x="194" y="434" width="80" height="34" rx="17" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-opacity="0.4" stroke-width="1.5"/>
+  <text x="234" y="456" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#6ee7b7">SSE</text>
+
+  <rect x="286" y="434" width="140" height="34" rx="17" fill="#f59e0b" fill-opacity="0.12" stroke="#f59e0b" stroke-opacity="0.4" stroke-width="1.5"/>
+  <text x="356" y="456" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#fcd34d">Anomaly detect</text>
+
+  <rect x="438" y="434" width="100" height="34" rx="17" fill="#8b5cf6" fill-opacity="0.12" stroke="#8b5cf6" stroke-opacity="0.4" stroke-width="1.5"/>
+  <text x="488" y="456" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#c4b5fd">MIT license</text>
+
+  <!-- Domain -->
+  <text x="600" y="590" text-anchor="middle" font-family="Inter,sans-serif" font-size="18" font-weight="500" fill="#475569" letter-spacing="1">dataflow.tekivex.com</text>
+
+  <!-- Bottom accent -->
+  <rect x="0" y="626" width="1200" height="4" fill="url(#accent)" opacity="0.5"/>
+</svg>
