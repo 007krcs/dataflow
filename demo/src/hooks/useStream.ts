@@ -21,6 +21,7 @@ export function useStream(config: StreamConfig, options: { maxRows?: number; aut
 
   const start = useCallback(() => engineRef.current?.start(), []);
   const stop  = useCallback(() => engineRef.current?.stop(),  []);
+  const injectRows = useCallback((r: StreamRow[]) => engineRef.current?.injectRows(r), []);
 
   useEffect(() => {
     const engine = new StreamingEngine(config, {
@@ -40,5 +41,5 @@ export function useStream(config: StreamConfig, options: { maxRows?: number; aut
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { rows, changes, status, metrics, anomalies, start, stop };
+  return { rows, changes, status, metrics, anomalies, start, stop, injectRows };
 }

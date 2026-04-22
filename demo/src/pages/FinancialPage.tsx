@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { useStream }             from '../hooks/useStream.ts';
 import { StreamTable }           from '../components/StreamTable.tsx';
 import { MetricBar }             from '../components/MetricBar.tsx';
@@ -10,11 +10,44 @@ import { AnomalyHeatmap }        from '../components/AnomalyHeatmap.tsx';
 import { SparklineCell }         from '../components/SparklineCell.tsx';
 import type { StreamConfig, StreamRow } from '../../../packages/core/src/index.js';
 
-const CONFIG: StreamConfig = {
+// ─── Configs ──────────────────────────────────────────────────────────────────
+
+const NORMAL_CONFIG: StreamConfig = {
   adapter: { type: 'simulated', scenario: 'financial', entityCount: 20, tickIntervalMs: 400, seed: 42 },
   anomaly: { enabled: true, methods: ['zscore', 'iqr'], windowSize: 60, minSamples: 15 },
   backpressure: { maxBufferSize: 5000, targetFps: 30 },
 };
+
+const STRESS_CONFIG: StreamConfig = {
+  adapter: { type: 'simulated', scenario: 'financial', entityCount: 80, tickIntervalMs: 20, anomalyRate: 0.08, seed: 99 },
+  anomaly: { enabled: true, methods: ['zscore', 'iqr'], windowSize: 40, minSamples: 8, zScoreThreshold: 2.0 },
+  backpressure: { maxBufferSize: 5000, targetFps: 30 },
+};
+
+const CODE_SNIPPET = `import { useStream } from '@gridstorm/dataflow-react';
+
+const { rows, metrics, anomalies } = useStream({
+  adapter: {
+    type: 'simulated',
+    scenario: 'financial',
+    entityCount: 20,
+    tickIntervalMs: 400,
+  },
+  anomaly: {
+    enabled: true,
+    methods: ['zscore', 'iqr'],
+    windowSize: 60,
+  },
+  backpressure: {
+    maxBufferSize: 5000,
+    targetFps: 60,
+  },
+});
+// rows     → live-updated rolling window of StreamRow[]
+// metrics  → { totalRows, rowsPerSecond, droppedRows, bufferUtilization, … }
+// anomalies→ detected outliers with z-scores, column IDs, timestamps`;
+
+// ─── Table columns ─────────────────────────────────────────────────────────────
 
 const TABLE_COLUMNS = [
   { key: 'symbol',    label: 'Symbol',   width: 80,  align: 'left' as const,  format: (v: unknown) => String(v) },
@@ -29,13 +62,47 @@ const TABLE_COLUMNS = [
 
 type PageTab = 'table' | 'charts' | 'anomalies';
 
+// ─── Outer shell: manages stress-mode + stream key ────────────────────────────
+
 export function FinancialPage() {
-  const { rows, changes, status, metrics, anomalies, start, stop } = useStream(CONFIG, { maxRows: 500 });
-  const [tab, setTab]              = useState<PageTab>('table');
-  const [showAnomaly, setShowAnomaly] = useState(false);
-  const [anomList, setAnomList]    = useState<typeof anomalies>([]);
-  const [selectedSym, setSelectedSym] = useState('AAPL');
-  React.useEffect(() => { setAnomList(anomalies); }, [anomalies]);
+  const [stressMode, setStressMode] = useState(false);
+  const [streamKey,  setStreamKey]  = useState(0);
+
+  const toggleStress = useCallback(() => {
+    setStressMode((m) => !m);
+    setStreamKey((k) => k + 1);
+  }, []);
+
+  return (
+    <FinancialStream
+      key={streamKey}
+      config={stressMode ? STRESS_CONFIG : NORMAL_CONFIG}
+      stressMode={stressMode}
+      onToggleStress={toggleStress}
+    />
+  );
+}
+
+// ─── Inner stream component ────────────────────────────────────────────────────
+
+interface FinancialStreamProps {
+  config: StreamConfig;
+  stressMode: boolean;
+  onToggleStress: () => void;
+}
+
+function FinancialStream({ config, stressMode, onToggleStress }: FinancialStreamProps) {
+  const { rows, changes, status, metrics, anomalies, start, stop, injectRows } =
+    useStream(config, { maxRows: 500 });
+
+  const [tab,          setTab]         = useState<PageTab>('table');
+  const [showCode,     setShowCode]    = useState(false);
+  const [anomList,     setAnomList]    = useState<typeof anomalies>([]);
+  const [selectedSym,  setSelectedSym] = useState('AAPL');
+  const [injectFlash,  setInjectFlash] = useState(false);
+  const [injectTarget, setInjectTarget] = useState('');
+
+  useEffect(() => { setAnomList(anomalies); }, [anomalies]);
 
   // Latest row per symbol
   const latestBySymbol = useMemo(() => {
@@ -73,35 +140,143 @@ export function FinancialPage() {
   }, [rows, latestBySymbol]);
 
   // OHLC rows for selected symbol
-  const ohlcRows = useMemo(() => rows.filter((r) => String(r.symbol) === selectedSym).slice(-40), [rows, selectedSym]);
+  const ohlcRows = useMemo(
+    () => rows.filter((r) => String(r.symbol) === selectedSym).slice(-40),
+    [rows, selectedSym],
+  );
+
+  // Inject a 10× price spike for the selected symbol
+  const handleInjectAnomaly = useCallback(() => {
+    const target =
+      latestBySymbol.find((r) => String(r.symbol) === selectedSym) ??
+      latestBySymbol[0];
+    if (!target) return;
+
+    const sym = String(target.symbol);
+    const spike: StreamRow = {
+      ...target,
+      price:     Number(target.price)  * 10,
+      high:      Number(target.high)   * 10,
+      low:       Number(target.low)    * 10,
+      timestamp: Date.now(),
+      id:        `${target.id}_spike_${Date.now()}`,
+    };
+
+    injectRows([spike]);
+    setInjectTarget(sym);
+    setInjectFlash(true);
+    setTab('anomalies');
+    setTimeout(() => setInjectFlash(false), 1500);
+  }, [injectRows, latestBySymbol, selectedSym]);
+
+  const entityCount  = stressMode ? 80 : 20;
+  const rateLabel    = stressMode ? '~4,000 rows/sec' : '~50 rows/sec';
+  const tickLabel    = stressMode ? '20ms ticks' : '400ms ticks';
 
   return (
     <div className="page">
-      {/* Header */}
+      {/* ── Header ─────────────────────────────────────────────────────────── */}
       <div className="page-header">
         <div>
-          <h1 className="page-title">Stock Market Feed</h1>
-          <p className="page-sub">Live prices · 20 symbols · GBM simulation · 400ms ticks</p>
+          <h1 className="page-title">
+            Stock Market Feed
+            {stressMode && (
+              <span className="stress-badge">⚡ STRESS MODE</span>
+            )}
+          </h1>
+          <p className="page-sub">
+            Live prices · {entityCount} symbols · GBM simulation · {tickLabel} · {rateLabel}
+          </p>
         </div>
-        <div className="page-actions">
+        <div className="page-actions" style={{ flexWrap: 'wrap', justifyContent: 'flex-end', gap: 6 }}>
           <div className="page-tabs">
-            {(['table','charts','anomalies'] as PageTab[]).map((t) => (
-              <button key={t} className={`page-tab ${tab === t ? 'page-tab--active' : ''}`} onClick={() => setTab(t)}>
-                {t === 'table' ? '⊞ Table' : t === 'charts' ? '📈 Charts' : '🔬 Anomalies'}
+            {(['table', 'charts', 'anomalies'] as PageTab[]).map((t) => (
+              <button
+                key={t}
+                className={`page-tab ${tab === t ? 'page-tab--active' : ''}`}
+                onClick={() => setTab(t)}
+              >
+                {t === 'table' ? '⊞ Table' : t === 'charts' ? '📈 Charts' : (
+                  <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                    🔬 Anomalies
+                    {anomList.length > 0 && (
+                      <span className="badge-count">{anomList.length}</span>
+                    )}
+                  </span>
+                )}
               </button>
             ))}
           </div>
+
           <ConnectionBadge status={status} latencyMs={metrics.latencyMs} />
+
+          {/* Stress Test */}
+          <button
+            className={`btn ${stressMode ? 'btn-stress-active' : 'btn-stress'}`}
+            onClick={onToggleStress}
+            title={stressMode ? 'Disable stress test (80 symbols @ 20ms)' : 'Enable stress test (80 symbols @ 20ms = ~4K rows/sec)'}
+          >
+            {stressMode ? '🛑 End Stress' : '⚡ Stress Test'}
+          </button>
+
+          {/* Inject Anomaly */}
+          <button
+            className={`btn ${injectFlash ? 'btn-inject-flash' : 'btn-inject'}`}
+            onClick={handleInjectAnomaly}
+            title={`Inject a 10× price spike for ${selectedSym} — anomaly detector will catch it`}
+          >
+            {injectFlash ? `🔴 Injected ${injectTarget}!` : '🔬 Inject Anomaly'}
+          </button>
+
+          {/* Start / Stop */}
           {status === 'connected'
             ? <button className="btn btn-danger"  onClick={stop}>⏹ Stop</button>
-            : <button className="btn btn-primary" onClick={start}>▶ Start</button>
-          }
+            : <button className="btn btn-primary" onClick={start}>▶ Start</button>}
+
+          {/* View Code */}
+          <button
+            className={`btn ${showCode ? 'btn-code-active' : 'btn-ghost'}`}
+            onClick={() => setShowCode((s) => !s)}
+            title="Show the code behind this dashboard"
+          >
+            {'</>'} Code
+          </button>
         </div>
       </div>
 
+      {/* ── Metrics ────────────────────────────────────────────────────────── */}
       <MetricBar metrics={metrics} />
 
-      {/* TABLE TAB */}
+      {/* ── Code snippet drawer ─────────────────────────────────────────────── */}
+      {showCode && (
+        <div className="code-panel">
+          <div className="code-panel-header">
+            <span className="code-panel-title">
+              This entire dashboard — ~40 lines of React
+            </span>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+              <a
+                href="https://github.com/007krcs/dataflow"
+                target="_blank"
+                rel="noreferrer"
+                className="code-panel-link"
+              >
+                View on GitHub →
+              </a>
+              <button className="code-panel-close" onClick={() => setShowCode(false)}>✕</button>
+            </div>
+          </div>
+          <pre className="code-block"><code>{CODE_SNIPPET}</code></pre>
+          <div className="code-panel-footer">
+            <span className="code-tag">npm i @gridstorm/dataflow-react</span>
+            <span style={{ color: 'var(--text-3)', fontSize: 11 }}>
+              Zero dependencies · React 18+ · TypeScript · {stressMode ? '~4,000 rows/sec with backpressure' : '~50 rows/sec default'}
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* ── Table tab ──────────────────────────────────────────────────────── */}
       {tab === 'table' && (
         <div className="page-body">
           <StreamTable
@@ -115,8 +290,8 @@ export function FinancialPage() {
             customCell={(col, val) => {
               if (col === '_spark') {
                 const history = val as number[];
-                const last2 = history.slice(-2);
-                const color = last2.length >= 2
+                const last2   = history.slice(-2);
+                const color   = last2.length >= 2
                   ? (last2[1]! > last2[0]! ? '#10b981' : '#ef4444')
                   : '#6366f1';
                 return <SparklineCell data={history} color={color} />;
@@ -124,22 +299,21 @@ export function FinancialPage() {
               return null;
             }}
           />
-          {showAnomaly && (
+          {anomList.length > 0 && (
             <AnomalyPanel anomalies={anomList} onClear={() => setAnomList([])} />
           )}
         </div>
       )}
 
-      {/* CHARTS TAB */}
+      {/* ── Charts tab ─────────────────────────────────────────────────────── */}
       {tab === 'charts' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          {/* Symbol selector */}
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             {latestBySymbol.slice(0, 10).map((r) => {
-              const sym = String(r.symbol);
+              const sym  = String(r.symbol);
               const hist = priceHistory.get(sym) ?? [];
               const last2 = hist.slice(-2);
-              const up = last2.length >= 2 && last2[1]! > last2[0]!;
+              const up    = last2.length >= 2 && last2[1]! > last2[0]!;
               return (
                 <button
                   key={sym}
@@ -169,7 +343,7 @@ export function FinancialPage() {
         </div>
       )}
 
-      {/* ANOMALIES TAB */}
+      {/* ── Anomalies tab ──────────────────────────────────────────────────── */}
       {tab === 'anomalies' && (
         <div className="charts-grid">
           <AnomalyHeatmap anomalies={anomList} height={240} />

@@ -1,3 +1,5 @@
+// © 2025 GridStorm / Tekivex — All Rights Reserved
+// Unauthorized reproduction or distribution is prohibited.
 /**
  * anomalyStore — Svelte store helpers for anomaly filtering and aggregation.
  *

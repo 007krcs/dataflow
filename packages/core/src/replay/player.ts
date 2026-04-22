@@ -1,3 +1,5 @@
+// © 2025 GridStorm / Tekivex — All Rights Reserved
+// Unauthorized reproduction or distribution is prohibited.
 /**
  * ReplayPlayer — Plays back a recorded frame buffer at configurable speed.
  *

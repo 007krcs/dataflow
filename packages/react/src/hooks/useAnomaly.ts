@@ -1,3 +1,5 @@
+// © 2025 GridStorm / Tekivex — All Rights Reserved
+// Unauthorized reproduction or distribution is prohibited.
 /**
  * useAnomaly — Subscribe to anomaly events from a StreamingEngine.
  * Keeps a rolling buffer of the last N anomalies, grouped by column.

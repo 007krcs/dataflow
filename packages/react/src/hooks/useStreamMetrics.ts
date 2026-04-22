@@ -1,3 +1,5 @@
+// © 2025 GridStorm / Tekivex — All Rights Reserved
+// Unauthorized reproduction or distribution is prohibited.
 /**
  * useStreamMetrics — Lightweight hook that only subscribes to metrics updates.
  * Useful for metric bars and status panels without re-rendering the whole grid.

@@ -1,3 +1,5 @@
+// © 2025 GridStorm / Tekivex — All Rights Reserved
+// Unauthorized reproduction or distribution is prohibited.
 /**
  * Multi-Stream Join — Combines rows from two or more StreamRow arrays
  * using a common key field, producing enriched merged rows.

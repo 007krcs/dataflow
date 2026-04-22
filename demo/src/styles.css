@@ -271,6 +271,99 @@ html, body, #root { height: 100%; background: var(--bg); color: var(--text); fon
 .page-tab:hover { color: var(--text); }
 .page-tab--active { background: var(--bg-2); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
 
+/* ── Stress / Inject / Code buttons ──────────────────────────────────────── */
+.btn-stress {
+  background: rgba(245,158,11,0.1); color: var(--yellow);
+  border-color: rgba(245,158,11,0.3);
+}
+.btn-stress:hover { background: rgba(245,158,11,0.2); }
+
+.btn-stress-active {
+  background: rgba(245,158,11,0.2); color: var(--yellow);
+  border-color: rgba(245,158,11,0.5);
+  animation: stress-pulse 1.5s ease-in-out infinite;
+}
+@keyframes stress-pulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(245,158,11,0); }
+  50%      { box-shadow: 0 0 0 4px rgba(245,158,11,0.2); }
+}
+
+.btn-inject {
+  background: rgba(239,68,68,0.1); color: var(--red);
+  border-color: rgba(239,68,68,0.3);
+}
+.btn-inject:hover { background: rgba(239,68,68,0.2); }
+
+.btn-inject-flash {
+  background: rgba(239,68,68,0.3); color: var(--red);
+  border-color: var(--red);
+  animation: inject-flash 0.2s ease;
+}
+@keyframes inject-flash {
+  0% { transform: scale(1); } 50% { transform: scale(1.06); } 100% { transform: scale(1); }
+}
+
+.btn-code-active {
+  background: rgba(99,102,241,0.15); color: var(--accent-2);
+  border-color: rgba(99,102,241,0.4);
+}
+
+/* ── Stress badge ─────────────────────────────────────────────────────────── */
+.stress-badge {
+  display: inline-block; margin-left: 10px;
+  background: rgba(245,158,11,0.15); color: var(--yellow);
+  border: 1px solid rgba(245,158,11,0.4); border-radius: 5px;
+  font-size: 11px; font-weight: 700; padding: 2px 8px;
+  letter-spacing: 0.05em; vertical-align: middle;
+  animation: stress-pulse 1.5s ease-in-out infinite;
+}
+
+/* ── Code panel ───────────────────────────────────────────────────────────── */
+.code-panel {
+  background: var(--bg-2); border: 1px solid rgba(99,102,241,0.3);
+  border-radius: var(--radius-lg); overflow: hidden;
+  animation: slide-down 0.2s ease;
+}
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.code-panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px; background: rgba(99,102,241,0.08);
+  border-bottom: 1px solid rgba(99,102,241,0.2);
+}
+.code-panel-title {
+  font-size: 12px; font-weight: 600; color: var(--accent-2); letter-spacing: 0.02em;
+}
+.code-panel-link {
+  font-size: 11px; color: var(--accent-2); text-decoration: none;
+  padding: 2px 8px; border: 1px solid rgba(99,102,241,0.3); border-radius: 4px;
+}
+.code-panel-link:hover { background: rgba(99,102,241,0.15); }
+.code-panel-close {
+  background: transparent; border: none; color: var(--text-3);
+  cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px;
+}
+.code-panel-close:hover { color: var(--text); background: var(--bg-3); }
+.code-block {
+  margin: 0; padding: 16px 20px; overflow-x: auto;
+  font-family: var(--mono); font-size: 12.5px; line-height: 1.65;
+  color: #e2e8f0; background: transparent;
+  white-space: pre;
+}
+.code-block code { color: inherit; }
+.code-panel-footer {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  padding: 8px 16px; background: rgba(0,0,0,0.2);
+  border-top: 1px solid var(--border);
+}
+.code-tag {
+  font-family: var(--mono); font-size: 12px; font-weight: 700;
+  color: var(--green); background: rgba(16,185,129,0.1);
+  border: 1px solid rgba(16,185,129,0.3); border-radius: 5px; padding: 3px 10px;
+}
+
 /* ── Replay controls ──────────────────────────────────────────────────────── */
 .replay-bar {
   display: flex; align-items: center; gap: 10px;

@@ -1,3 +1,5 @@
+// © 2025 GridStorm / Tekivex — All Rights Reserved
+// Unauthorized reproduction or distribution is prohibited.
 /**
  * StreamingEngine — Central orchestrator for the DataFlow pipeline.
  *
@@ -201,6 +203,14 @@ export class StreamingEngine implements IStreamingEngine {
     this._startedAt = Date.now();
     this._rowsIn    = 0;
     this._anomCount = 0;
+  }
+
+  /**
+   * Inject rows directly through the full pipeline (backpressure → delta → anomaly detector).
+   * Useful for demos, synthetic event injection, and testing.
+   */
+  injectRows(rows: StreamRow[]): void {
+    this._handleRawRows(rows);
   }
 
   // ── Internal pipeline ──────────────────────────────────────────────────────

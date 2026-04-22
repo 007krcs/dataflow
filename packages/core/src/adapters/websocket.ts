@@ -1,3 +1,5 @@
+// © 2025 GridStorm / Tekivex — All Rights Reserved
+// Unauthorized reproduction or distribution is prohibited.
 /**
  * WebSocketAdapter — Production-grade WebSocket client with:
  *   - Exponential back-off reconnection (jitter to avoid thundering herd)

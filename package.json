@@ -4,14 +4,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev":         "pnpm --filter @dataflow/demo dev",
-    "build":       "pnpm --filter @dataflow/core build && pnpm --filter @dataflow/react build && pnpm --filter @dataflow/vue build && pnpm --filter @dataflow/svelte build",
-    "build:demo":  "pnpm --filter @dataflow/demo build",
-    "build:all":   "pnpm build && pnpm build:demo",
-    "test":        "pnpm --filter @gridstorm/dataflow-react test",
-    "lint":        "tsc -p tsconfig.base.json --noEmit"
+    "dev": "pnpm --filter @dataflow/demo dev",
+    "build": "pnpm --filter @dataflow/core build && pnpm --filter @dataflow/react build && pnpm --filter @dataflow/vue build && pnpm --filter @dataflow/svelte build",
+    "build:demo": "pnpm --filter @dataflow/demo build",
+    "build:all": "pnpm build && pnpm build:demo",
+    "test": "pnpm --filter @gridstorm/dataflow-react test",
+    "lint": "tsc -p tsconfig.base.json --noEmit"
   },
   "devDependencies": {
+    "javascript-obfuscator": "^5.4.1",
     "typescript": "^5.6.0"
   }
 }

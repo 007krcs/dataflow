@@ -1,3 +1,5 @@
+// © 2025 GridStorm / Tekivex — All Rights Reserved
+// Unauthorized reproduction or distribution is prohibited.
 /**
  * RingBuffer — Fixed-capacity circular buffer with O(1) push/pop.
  * Used for backpressure control and time-travel history.

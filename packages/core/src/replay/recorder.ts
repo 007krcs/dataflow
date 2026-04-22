@@ -1,3 +1,5 @@
+// © 2025 GridStorm / Tekivex — All Rights Reserved
+// Unauthorized reproduction or distribution is prohibited.
 /**
  * StreamRecorder — Captures live StreamFrames into a circular snapshot buffer.
  *

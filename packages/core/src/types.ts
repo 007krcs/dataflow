@@ -1,3 +1,5 @@
+// © 2025 GridStorm / Tekivex — All Rights Reserved
+// Unauthorized reproduction or distribution is prohibited.
 /**
  * DataFlow Core — Type Definitions
  * All public types for the streaming engine.
@@ -245,6 +247,11 @@ export interface IStreamingEngine {
   getAnomalyStats(column: string): AnomalyStats | null;
   /** Reset throughput/drop/anomaly counters without restarting the stream. */
   resetMetrics(): void;
+  /**
+   * Inject rows directly through the full pipeline (backpressure → delta → anomaly detector).
+   * Useful for demos, synthetic event injection, and testing.
+   */
+  injectRows(rows: StreamRow[]): void;
 }
 
 /** Per-column threshold bounds for the 'threshold' anomaly method. */
