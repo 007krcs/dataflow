@@ -112,7 +112,8 @@ describe('MetricBar', () => {
     // Find the tile for Dropped — it's the 3rd tile (index 2)
     const droppedTile = bar?.children[2] as HTMLElement;
     const valueEl = droppedTile?.querySelector('div:first-child') as HTMLElement;
-    expect(valueEl?.style.color).toBe('#f59e0b');
+    // jsdom normalizes hex colors to rgb format
+    expect(valueEl?.style.color).toMatch(/^#f59e0b$|^rgb\(245,\s*158,\s*11\)$/);
   });
 
   it('anomalies tile has red color (#ef4444) when anomalyCount > 0', () => {
@@ -122,7 +123,7 @@ describe('MetricBar', () => {
     // 4th tile (index 3) = Anomalies
     const anomalyTile = bar?.children[3] as HTMLElement;
     const valueEl = anomalyTile?.querySelector('div:first-child') as HTMLElement;
-    expect(valueEl?.style.color).toBe('#ef4444');
+    expect(valueEl?.style.color).toMatch(/^#ef4444$|^rgb\(239,\s*68,\s*68\)$/);
   });
 
   it('buffer tile has warning color at 51% utilization', () => {
@@ -132,7 +133,7 @@ describe('MetricBar', () => {
     // 5th tile (index 4) = Buffer
     const bufferTile = bar?.children[4] as HTMLElement;
     const valueEl = bufferTile?.querySelector('div:first-child') as HTMLElement;
-    expect(valueEl?.style.color).toBe('#f59e0b');
+    expect(valueEl?.style.color).toMatch(/^#f59e0b$|^rgb\(245,\s*158,\s*11\)$/);
   });
 
   it('buffer tile has red color at 81% utilization', () => {
@@ -141,7 +142,7 @@ describe('MetricBar', () => {
     const bar = container.querySelector('.df-metric-bar');
     const bufferTile = bar?.children[4] as HTMLElement;
     const valueEl = bufferTile?.querySelector('div:first-child') as HTMLElement;
-    expect(valueEl?.style.color).toBe('#ef4444');
+    expect(valueEl?.style.color).toMatch(/^#ef4444$|^rgb\(239,\s*68,\s*68\)$/);
   });
 
   // ── className ─────────────────────────────────────────────────────────────

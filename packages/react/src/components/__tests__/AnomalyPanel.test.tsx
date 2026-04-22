@@ -46,10 +46,11 @@ describe('AnomalyPanel', () => {
   it('does NOT show the anomaly count badge when empty', () => {
     const { container } = render(<AnomalyPanel anomalies={[]} />);
     // The badge is a span inside the header that shows anomalies.length
-    const header = container.querySelector('[style*="borderBottom"]');
+    // jsdom renders inline styles with kebab-case (border-bottom, not borderBottom)
+    const header = container.querySelector('.df-anomaly-panel > div:first-child');
     expect(header?.textContent).toContain('Anomaly Feed');
-    // No numeric badge with count
-    expect(header?.textContent).not.toMatch(/^\d+$/);
+    // No numeric badge with count — textContent should not be purely digits
+    expect(header?.textContent?.trim()).not.toMatch(/^\d+$/);
   });
 
   // ── Header ────────────────────────────────────────────────────────────────
@@ -85,7 +86,8 @@ describe('AnomalyPanel', () => {
     const newer = { ...makeAnomaly('new', 'critical'), timestamp: older.timestamp + 1000 };
     render(<AnomalyPanel anomalies={[older, newer]} />);
 
-    const messages = screen.getAllByText(/Anomaly/i);
+    // Use a specific pattern that matches anomaly messages but NOT the "Anomaly Feed" header
+    const messages = screen.getAllByText(/Anomaly \w+: value out of range/i);
     // First rendered message should be from the newer anomaly (reversed)
     expect(messages[0].textContent).toContain('new');
   });

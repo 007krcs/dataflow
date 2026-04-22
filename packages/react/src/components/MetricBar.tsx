@@ -19,13 +19,13 @@ function fmt(n: number): string {
 
 export function MetricBar({ metrics, className = '' }: MetricBarProps) {
   const tiles: Tile[] = [
-    { label: 'Total Rows',  value: fmt(metrics.totalRows) },
-    { label: 'Rows/sec',    value: fmt(metrics.rowsPerSecond), color: '#10b981' },
-    { label: 'Dropped',     value: fmt(metrics.droppedRows),   color: metrics.droppedRows > 0 ? '#f59e0b' : undefined },
-    { label: 'Anomalies',   value: metrics.anomalyCount,        color: metrics.anomalyCount > 0 ? '#ef4444' : undefined },
-    { label: 'Buffer',      value: `${(metrics.bufferUtilization * 100).toFixed(0)}%`,
+    { label: 'TOTAL ROWS',  value: fmt(metrics.totalRows) },
+    { label: 'ROWS/SEC',    value: fmt(metrics.rowsPerSecond), color: '#10b981' },
+    { label: 'DROPPED',     value: fmt(metrics.droppedRows),   color: metrics.droppedRows > 0 ? '#f59e0b' : undefined },
+    { label: 'ANOMALIES',   value: metrics.anomalyCount,        color: metrics.anomalyCount > 0 ? '#ef4444' : undefined },
+    { label: 'BUFFER',      value: `${(metrics.bufferUtilization * 100).toFixed(0)}%`,
       color: metrics.bufferUtilization > 0.8 ? '#ef4444' : metrics.bufferUtilization > 0.5 ? '#f59e0b' : undefined },
-    ...(metrics.latencyMs > 0 ? [{ label: 'Latency', value: `${metrics.latencyMs}ms` }] : []),
+    ...(metrics.latencyMs > 0 ? [{ label: 'LATENCY', value: `${metrics.latencyMs}ms` }] : []),
   ];
 
   return (
@@ -53,7 +53,7 @@ export function MetricBar({ metrics, className = '' }: MetricBarProps) {
           <div style={{ fontSize: 18, fontWeight: 700, color: t.color ?? '#f1f5f9', fontVariantNumeric: 'tabular-nums' }}>
             {t.value}
           </div>
-          <div style={{ fontSize: 10, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 2 }}>
+          <div style={{ fontSize: 10, color: '#64748b', letterSpacing: '0.08em', marginTop: 2 }}>
             {t.label}
           </div>
         </div>
