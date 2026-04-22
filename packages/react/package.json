@@ -1,6 +1,6 @@
 {
   "name": "@gridstorm/dataflow-react",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "homepage": "https://dataflow.tekivex.com",
   "description": "DataFlow React hooks and components for real-time streaming data",
   "type": "module",
@@ -14,7 +14,10 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": ["dist", "README.md"],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsup && node ../../scripts/obfuscate.mjs ./dist",
     "dev": "tsup --watch",
