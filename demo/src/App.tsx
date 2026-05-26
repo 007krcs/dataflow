@@ -30,7 +30,7 @@ export default function App() {
             <circle cx="26" cy="10" r="2" fill="#f59e0b"/>
           </svg>
           <span className="brand-name">DataFlow</span>
-          <span className="brand-version">v0.3.2</span>
+          <span className="brand-version">v0.3.3</span>
         </div>
 
         <nav className="topbar-nav">

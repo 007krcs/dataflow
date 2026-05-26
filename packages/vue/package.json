@@ -1,6 +1,6 @@
 {
   "name": "@gridstorm/dataflow-vue",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "homepage": "https://dataflow.tekivex.com",
   "description": "DataFlow Vue 3 composables for real-time streaming data",
   "type": "module",

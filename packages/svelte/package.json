@@ -1,6 +1,6 @@
 {
   "name": "@gridstorm/dataflow-svelte",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "homepage": "https://dataflow.tekivex.com",
   "description": "DataFlow Svelte 5 stores and runes for real-time streaming data",
   "type": "module",

@@ -1,6 +1,6 @@
 # Benchmarks follow-up post — v0.4
 
-This is the draft for the "Show HN follow-up" post you publish ~2 weeks after the v0.3.2 launch. The whole point of this post is to **earn second-wave attention by being honest about what's slow**, not to celebrate what's fast. Posts that show real bottlenecks land. Posts that hide them get sniffed out in the comments.
+This is the draft for the "Show HN follow-up" post you publish ~2 weeks after the v0.3.3 launch. The whole point of this post is to **earn second-wave attention by being honest about what's slow**, not to celebrate what's fast. Posts that show real bottlenecks land. Posts that hide them get sniffed out in the comments.
 
 **Where to publish:** dev.to + your blog (cross-post). Submit to HN as `Show HN` again only if you have meaningfully new functionality in v0.4 — otherwise just post to the same threads as a follow-up comment and tweet it from @tekivex. HN doesn't reward re-launches of the same product within a month.
 
@@ -177,7 +177,7 @@ versions. If you find a regression I missed, file an issue.
 
 ## How to fill in the placeholders before publishing
 
-Two weeks after the v0.3.2 launch, run:
+Two weeks after the v0.3.3 launch, run:
 
 ```bash
 pnpm install

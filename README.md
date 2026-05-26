@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-blue)](https://www.typescriptlang.org/)
-[![Version](https://img.shields.io/badge/version-0.3.2-indigo)](https://github.com/007krcs/dataflow)
+[![Version](https://img.shields.io/badge/version-0.3.3-indigo)](https://github.com/007krcs/dataflow)
 [![React](https://img.shields.io/badge/react-18%20%7C%2019-61dafb)](https://www.npmjs.com/package/@gridstorm/dataflow-react)
 [![Vue](https://img.shields.io/badge/vue-3.3%2B-42b883)](https://www.npmjs.com/package/@gridstorm/dataflow-vue)
 [![Svelte](https://img.shields.io/badge/svelte-5-ff3e00)](https://www.npmjs.com/package/@gridstorm/dataflow-svelte)
