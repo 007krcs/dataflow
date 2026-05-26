@@ -11,7 +11,9 @@
     "allowImportingTsExtensions": true,
     "types": ["node"],
     "paths": {
-      "@dataflow/core": ["../packages/core/src/index.ts"]
+      "@gridstorm/dataflow-core":         ["../packages/core/src/index.ts"],
+      "@gridstorm/dataflow-canvas":       ["../packages/canvas/src/index.ts"],
+      "@gridstorm/dataflow-canvas/react": ["../packages/canvas/src/integrations/react.tsx"]
     }
   },
   "include": ["src/**/*", "vite.config.ts"]

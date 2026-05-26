@@ -3,14 +3,16 @@ import { FinancialPage }  from './pages/FinancialPage.tsx';
 import { CryptoPage }     from './pages/CryptoPage.tsx';
 import { IoTPage }        from './pages/IoTPage.tsx';
 import { EcommercePage }  from './pages/EcommercePage.tsx';
+import { CanvasPage }     from './pages/CanvasPage.tsx';
 
-type Page = 'financial' | 'crypto' | 'iot' | 'ecommerce';
+type Page = 'financial' | 'crypto' | 'iot' | 'ecommerce' | 'canvas';
 
 const NAV: { id: Page; label: string; icon: string }[] = [
   { id: 'financial',  label: 'Stocks',    icon: '📈' },
   { id: 'crypto',     label: 'Crypto',    icon: '₿' },
   { id: 'iot',        label: 'IoT',       icon: '🌡' },
   { id: 'ecommerce',  label: 'Commerce',  icon: '🛒' },
+  { id: 'canvas',     label: 'Canvas',    icon: '🎨' },
 ];
 
 export default function App() {
@@ -28,7 +30,7 @@ export default function App() {
             <circle cx="26" cy="10" r="2" fill="#f59e0b"/>
           </svg>
           <span className="brand-name">DataFlow</span>
-          <span className="brand-version">v0.3.0</span>
+          <span className="brand-version">v0.3.2</span>
         </div>
 
         <nav className="topbar-nav">
@@ -60,6 +62,7 @@ export default function App() {
         {page === 'crypto'     && <CryptoPage />}
         {page === 'iot'        && <IoTPage />}
         {page === 'ecommerce'  && <EcommercePage />}
+        {page === 'canvas'     && <CanvasPage />}
       </main>
     </div>
   );
