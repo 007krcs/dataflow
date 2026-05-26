@@ -19,21 +19,21 @@ DataFlow is a real-time streaming data engine for the browser. It connects any l
 
 ```bash
 # npm
-npm install @dataflow/core @dataflow/react
+npm install @gridstorm/dataflow-core @gridstorm/dataflow-react
 
 # pnpm
-pnpm add @dataflow/core @dataflow/react
+pnpm add @gridstorm/dataflow-core @gridstorm/dataflow-react
 
 # yarn
-yarn add @dataflow/core @dataflow/react
+yarn add @gridstorm/dataflow-core @gridstorm/dataflow-react
 ```
 
-**Peer dependencies** (for `@dataflow/react`):
+**Peer dependencies** (for `@gridstorm/dataflow-react`):
 ```bash
 npm install react react-dom   # React 18+
 ```
 
-`@dataflow/core` has **zero runtime dependencies**.
+`@gridstorm/dataflow-core` has **zero runtime dependencies**.
 
 ---
 
@@ -43,7 +43,7 @@ npm install react react-dom   # React 18+
 
 ```tsx
 // StockTicker.tsx
-import { useStream } from '@dataflow/react';
+import { useStream } from '@gridstorm/dataflow-react';
 
 export function StockTicker() {
   const { rows, status, metrics } = useStream({
@@ -74,7 +74,7 @@ export function StockTicker() {
 ### Step 2 — Try it with simulated data (no server needed)
 
 ```tsx
-import { useStream } from '@dataflow/react';
+import { useStream } from '@gridstorm/dataflow-react';
 
 export function Demo() {
   const { rows, status } = useStream({
@@ -101,7 +101,7 @@ export function Demo() {
 ### Step 3 — Add the Metric Bar and Connection Badge
 
 ```tsx
-import { useStream, MetricBar, ConnectionBadge } from '@dataflow/react';
+import { useStream, MetricBar, ConnectionBadge } from '@gridstorm/dataflow-react';
 
 export function Dashboard() {
   const { rows, status, metrics } = useStream({

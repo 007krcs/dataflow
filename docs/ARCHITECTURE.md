@@ -77,7 +77,7 @@ This document describes the internal design of DataFlow — how data flows from 
 
 ```
 packages/
-├── core/                       @dataflow/core
+├── core/                       @gridstorm/dataflow-core
 │   src/
 │   ├── types.ts               All public TypeScript types
 │   ├── engine.ts              StreamingEngine orchestrator
@@ -94,7 +94,7 @@ packages/
 │       ├── delta-calculator.ts Cell change tracking
 │       └── anomaly-detector.ts Z-score + IQR + MAD + rolling window
 │
-├── react/                      @dataflow/react
+├── react/                      @gridstorm/dataflow-react
 │   src/
 │   ├── hooks/
 │   │   ├── useStream.ts       Primary hook (rows + changes + status + metrics)
@@ -284,9 +284,9 @@ useEffect(() => {
 
 ## Key Design Decisions
 
-### 1. Headless core, no React dependency in `@dataflow/core`
+### 1. Headless core, no React dependency in `@gridstorm/dataflow-core`
 
-The core engine is pure TypeScript with zero dependencies. It works in React, Vue, Angular, Svelte, or vanilla JS. The React package (`@dataflow/react`) is a thin wrapper.
+The core engine is pure TypeScript with zero dependencies. It works in React, Vue, Angular, Svelte, or vanilla JS. The React package (`@gridstorm/dataflow-react`) is a thin wrapper.
 
 ### 2. RingBuffer over dynamic arrays
 

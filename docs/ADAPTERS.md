@@ -329,7 +329,7 @@ adapter: {
 ### Detecting support
 
 ```ts
-import { detectBestTransport } from '@dataflow/core';
+import { detectBestTransport } from '@gridstorm/dataflow-core';
 
 const transport = detectBestTransport();
 // Returns: 'webtransport' | 'websocket' | 'sse'
@@ -394,7 +394,7 @@ If your server sends a non-standard format, preprocess it server-side or use a p
 If none of the built-in adapters fit your use case (e.g. Kafka consumer via Confluent REST Proxy, gRPC-Web, MQTT), you can drive the engine directly:
 
 ```ts
-import { StreamingEngine } from '@dataflow/core';
+import { StreamingEngine } from '@gridstorm/dataflow-core';
 
 const engine = new StreamingEngine(
   { adapter: { type: 'simulated', scenario: 'financial' } }, // placeholder

@@ -1,10 +1,14 @@
 # DataFlow
 
-**Real-Time Streaming Data Platform** — open-source, framework-agnostic, built for extreme throughput.
+**Real-Time Streaming Data Platform** — open-source, framework-agnostic, built so your live-data dashboard doesn't drop frames or lose anomalies.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-blue)](https://www.typescriptlang.org/)
-[![Version](https://img.shields.io/badge/version-0.3.0-indigo)](https://github.com/007krcs/dataflow)
+[![Version](https://img.shields.io/badge/version-0.3.2-indigo)](https://github.com/007krcs/dataflow)
+[![React](https://img.shields.io/badge/react-18%20%7C%2019-61dafb)](https://www.npmjs.com/package/@gridstorm/dataflow-react)
+[![Vue](https://img.shields.io/badge/vue-3.3%2B-42b883)](https://www.npmjs.com/package/@gridstorm/dataflow-vue)
+[![Svelte](https://img.shields.io/badge/svelte-5-ff3e00)](https://www.npmjs.com/package/@gridstorm/dataflow-svelte)
+[![Canvas](https://img.shields.io/badge/renderer-canvas--alpha-purple)](https://www.npmjs.com/package/@gridstorm/dataflow-canvas)
 
 ---
 
@@ -27,15 +31,23 @@ Data Source  →  Adapter  →  BackpressureController  →  DeltaCalculator  �
 
 | Feature | Description |
 |---------|-------------|
-| **5 Adapters** | WebSocket, SSE, HTTP Polling (adaptive), WebTransport (HTTP/3), Simulated |
-| **Backpressure Control** | Ring buffer + requestAnimationFrame scheduler, configurable drop strategies |
-| **Anomaly Detection** | Z-score, IQR (Tukey fences), MAD — rolling window, per-column |
+| **5 Adapters** | WebSocket, SSE, HTTP Polling (adaptive / long-poll), WebTransport (HTTP/3), Simulated |
+| **Backpressure Control** | Ring buffer + requestAnimationFrame scheduler, `oldest` / `newest` / `sample` drop strategies |
+| **Anomaly Detection** | Z-score, IQR (Tukey fences), MAD, static `threshold` — rolling window, per-column, severity tiers |
+| **Sustained Anomalies** | Run-length and burst detection layered on point-in-time events |
 | **Cell Change Tracking** | Direction (up/down/flat), % change, flash animations |
-| **React Hooks** | `useStream`, `useStreamMetrics`, `useAnomaly` |
-| **React Components** | `ConnectionBadge`, `MetricBar`, `AnomalyPanel` |
-| **Simulated Data** | Financial (GBM), Crypto, IoT sensors, E-commerce — seeded PRNG |
+| **Time-Travel Replay** | Record live frames, scrub & seek, 0.1×–16× playback speed |
+| **Multi-Stream Join** | `joinStreams` (inner / left / outer) + N-way `mergeStreams` |
+| **Schema Auto-Inference** | Detects `number / boolean / timestamp / currency / percentage` from live samples |
+| **React 18 / 19 Hooks** | `useStream`, `useStreamMetrics`, `useAnomaly` |
+| **Vue 3 Composables** | `useStream`, `useStreamMetrics`, `useAnomaly` |
+| **Svelte 5 Stores** | `createStream`, `createAnomalyStore` |
+| **Components** | `ConnectionBadge`, `MetricBar`, `AnomalyPanel` (React) |
+| **Simulated Data** | Financial (GBM), Crypto, IoT, E-commerce, Logs, Social — seeded PRNG |
 | **TypeScript First** | Full type coverage, strict mode |
 | **Zero Dependencies** | Core has no runtime dependencies |
+| **Canvas Renderer (alpha)** | `@gridstorm/dataflow-canvas` — Canvas-2D streaming grid with layer cache, dirty-rect rAF, and cell-flash animations for 10K+ visible rows |
+| **Footprint** | Core ≈ 79 KB gzipped · React adapter ≈ 12 KB gzipped · Canvas renderer ≈ 5 KB gzipped |
 
 ---
 
@@ -43,14 +55,14 @@ Data Source  →  Adapter  →  BackpressureController  →  DeltaCalculator  �
 
 ```bash
 # Install
-pnpm add @dataflow/core @dataflow/react
+pnpm add @gridstorm/dataflow-core @gridstorm/dataflow-react
 
 # Or npm
-npm install @dataflow/core @dataflow/react
+npm install @gridstorm/dataflow-core @gridstorm/dataflow-react
 ```
 
 ```tsx
-import { useStream } from '@dataflow/react';
+import { useStream } from '@gridstorm/dataflow-react';
 
 export function StockTicker() {
   const { rows, status, metrics } = useStream({
@@ -98,7 +110,7 @@ Four live scenarios:
 
 ### WebSocket
 ```ts
-import { StreamingEngine } from '@dataflow/core';
+import { StreamingEngine } from '@gridstorm/dataflow-core';
 
 const engine = new StreamingEngine({
   adapter: {
@@ -226,36 +238,49 @@ const { anomalies, byColumn, clearAll } = useAnomaly(config);
 
 ```
 packages/
-  core/           # Pure TypeScript, zero dependencies
+  core/           # @gridstorm/dataflow-core — zero runtime deps
     src/
-      types.ts          # All TypeScript types
-      engine.ts         # StreamingEngine orchestrator
+      types.ts                       # All public TypeScript types
+      engine.ts                      # StreamingEngine orchestrator
       adapters/
-        websocket.ts    # WS + reconnect + heartbeat
-        sse.ts          # EventSource + reconnect
-        http-polling.ts # Adaptive interval polling
-        web-transport.ts # HTTP/3 QUIC (futuristic)
-        simulated.ts    # GBM financial + IoT + ecommerce
+        websocket.ts                 # WS + reconnect + heartbeat
+        sse.ts                       # EventSource + reconnect
+        http-polling.ts              # Fixed / adaptive / long-poll
+        web-transport.ts             # HTTP/3 + detectBestTransport fallback
+        simulated.ts                 # 6 scenarios, seeded PRNG, GBM math
       pipeline/
-        ring-buffer.ts       # O(1) circular buffer
-        backpressure.ts      # rAF scheduler
-        delta-calculator.ts  # Cell change tracking
-        anomaly-detector.ts  # Z-score / IQR / MAD
+        ring-buffer.ts               # O(1) circular buffer
+        backpressure.ts              # rAF scheduler + drop strategies
+        delta-calculator.ts          # Cell change tracking
+        anomaly-detector.ts          # Z-score / IQR / MAD / threshold
+        sustained-anomaly.ts         # Run-length + burst detection
+      replay/
+        recorder.ts                  # Frame recorder
+        player.ts                    # ReplayPlayer (seek / step / speed / loop)
+      join/
+        stream-join.ts               # joinStreams + mergeStreams
+      schema/
+        infer.ts                     # Schema auto-inference
 
-  react/          # React 18+ hooks and components
-    src/
-      hooks/
-        useStream.ts
-        useStreamMetrics.ts
-        useAnomaly.ts
-      components/
-        ConnectionBadge.tsx
-        MetricBar.tsx
-        AnomalyPanel.tsx
+  react/          # @gridstorm/dataflow-react — React 18 / 19
+    src/hooks/      useStream, useStreamMetrics, useAnomaly
+    src/components/ ConnectionBadge, MetricBar, AnomalyPanel
 
-demo/             # Interactive Vite + React demo app
+  vue/            # @gridstorm/dataflow-vue — Vue 3.3+
+    src/composables/ useStream, useStreamMetrics, useAnomaly
+
+  svelte/         # @gridstorm/dataflow-svelte — Svelte 5
+    src/stores/     createStream, createAnomalyStore
+
+  canvas/         # @gridstorm/dataflow-canvas — Canvas-2D grid renderer (alpha)
+    src/renderer/     CanvasGridRenderer + background/header/cells/flashes layers
+    src/scheduler/    Dirty-rect rAF scheduler
+    src/text/         FontCache (measureText memoization)
+    src/integrations/ React <CanvasGrid> component
+
+demo/             # Interactive Vite + React demo (dataflow.tekivex.com)
 docs/             # Full documentation (7 guides)
-e2e/              # Playwright E2E tests (273 tests)
+e2e/              # Playwright E2E tests (273 tests × 3 browsers)
 ```
 
 ---
@@ -276,28 +301,92 @@ e2e/              # Playwright E2E tests (273 tests)
 
 ## Comparison
 
-| Feature | DataFlow | Apache Kafka (browser) | Socket.io | RxJS |
-|---------|----------|------------------------|-----------|------|
-| Zero server infra | ✅ | ❌ | ❌ | ✅ |
-| Backpressure | ✅ | ✅ | ❌ | ✅ |
-| Anomaly detection | ✅ | ❌ | ❌ | ❌ |
-| Cell flash UI | ✅ | ❌ | ❌ | ❌ |
-| WebTransport | ✅ | ❌ | ❌ | ❌ |
-| React hooks | ✅ | ❌ | ❌ | ❌ |
+| Feature | DataFlow | Socket.io | RxJS | TanStack Query |
+|---------|----------|-----------|------|----------------|
+| Zero server infra | ✅ | ❌ (needs Socket.io server) | ✅ | ✅ |
+| WebSocket + SSE + HTTP poll + WebTransport | ✅ | WS only | ❌ (transport-agnostic) | HTTP poll only |
+| Backpressure (ring buffer + rAF) | ✅ | ❌ | Manual via operators | ❌ |
+| Per-column anomaly detection | ✅ (Z-score / IQR / MAD / threshold) | ❌ | ❌ | ❌ |
+| Sustained / burst anomaly patterns | ✅ | ❌ | ❌ | ❌ |
+| Cell-change direction + flash | ✅ | ❌ | ❌ | ❌ |
+| Time-travel record / replay | ✅ | ❌ | ❌ | ❌ |
+| Multi-stream SQL-style join | ✅ | ❌ | `combineLatest` only | ❌ |
+| React + Vue + Svelte adapters | ✅ | React/Vue community wrappers | ❌ | ✅ (React + Vue + Solid) |
 | TypeScript | ✅ | ✅ | ✅ | ✅ |
-| Bundle size | ~12KB | ~500KB | ~80KB | ~30KB |
+| Core footprint (gzipped) | ~79 KB | ~30 KB client | ~30 KB | ~13 KB |
+
+DataFlow is a complement to chart libraries (Recharts, Visx, Highcharts) and grids (AG Grid, TanStack Table) — feed their UI with our pipeline.
 
 ---
 
 ## Roadmap
 
-- [ ] Vue 3 adapter (`@dataflow/vue`)
-- [ ] Svelte 5 adapter (`@dataflow/svelte`)
-- [ ] WebGL canvas renderer for 1M+ rows/sec
-- [ ] Time-travel playback (record & replay streams)
+**Shipped in 0.3.x:**
+
+- [x] Vue 3 adapter — [`@gridstorm/dataflow-vue`](https://www.npmjs.com/package/@gridstorm/dataflow-vue)
+- [x] Svelte 5 adapter — [`@gridstorm/dataflow-svelte`](https://www.npmjs.com/package/@gridstorm/dataflow-svelte)
+- [x] Time-travel record & replay (`StreamRecorder` + `ReplayPlayer`, 0.1×–16× scrubbing)
+- [x] Multi-stream join (`joinStreams` / `mergeStreams`)
+- [x] Schema auto-inference (`inferSchema`)
+- [x] Sustained-anomaly detection (run-length + burst)
+
+**Next:**
+
+- [x] Canvas-2D renderer (alpha) — [`@gridstorm/dataflow-canvas`](https://www.npmjs.com/package/@gridstorm/dataflow-canvas)
+- [ ] WebGL backend for the canvas renderer (1M+ cells)
+- [ ] IndexedDB sink for replay buffers (persistent recordings)
+- [ ] Multivariate anomaly detection (correlated columns)
 - [ ] gRPC-Web adapter
 - [ ] Grafana-compatible metrics export
-- [ ] WASM-accelerated anomaly detection
+- [ ] WASM-accelerated rolling statistics
+
+## Examples
+
+| Example | What it shows |
+|---|---|
+| [`examples/node-ws-server`](./examples/node-ws-server) | Reference Node WebSocket server (~250 LOC, single dep) that emits financial / IoT / ecommerce rows in the exact wire format the DataFlow WS adapter expects. The fastest way to try DataFlow against a real socket. |
+
+---
+
+## Performance
+
+Honest, reproducible numbers. Run `pnpm --filter @gridstorm/dataflow-bench bench` to measure on your own hardware.
+
+**Engine throughput** (Node + rAF polyfill, 6-column financial rows, low-end Intel i3 laptop):
+
+| Config | rows/sec |
+|---|---:|
+| No anomaly, 100 entities | ~24,000 |
+| No anomaly, 5,000 entities | ~26,000 |
+| Z-score + IQR, 100 entities | ~1,500 |
+| Z-score + IQR, 1,000 entities | ~1,200 |
+
+The headline: **the engine itself isn't the bottleneck**; per-row statistical anomaly detection is. IQR and MAD require sorting the rolling window per row per column, which scales O(n log n). On M-series hardware these numbers roughly 2–3× across the board.
+
+If you're streaming faster than the anomaly path can sustain, use the `threshold` method (static comparison, O(1) per row) or wait for the v0.4 incremental-quantile estimator on the roadmap.
+
+**Anomaly detector throughput** (single column, 200k rows):
+
+| Method | rows/sec | Notes |
+|---|---:|---|
+| baseline (off) | ~71,000 | engine + delta calc only |
+| z-score | ~21,000 | running mean/variance — cheapest |
+| IQR | ~13,000 | needs sorted window |
+| MAD | ~11,000 | needs sorted window + median of deviations |
+| z + IQR + MAD | ~24,000 | early-exit when one fires; faster than single methods at high anomaly rates |
+
+**Bundle sizes** (gzipped, post-obfuscation, `gzip -9` on published `dist/index.js`):
+
+| Package | gzipped |
+|---|---:|
+| `@gridstorm/dataflow-core` | 78.5 KB |
+| `@gridstorm/dataflow-react` | 12.4 KB |
+| `@gridstorm/dataflow-vue` | 4.8 KB |
+| `@gridstorm/dataflow-svelte` | 4.2 KB |
+| `@gridstorm/dataflow-canvas` (core) | 5.3 KB |
+| `@gridstorm/dataflow-canvas/react` | 6.0 KB |
+
+Full methodology + JSON output format: [`bench/README.md`](./bench/README.md). Refute the numbers if you can; PRs welcome.
 
 ---
 

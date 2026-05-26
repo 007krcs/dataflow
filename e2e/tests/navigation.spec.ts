@@ -10,7 +10,8 @@ test.describe('App Navigation', () => {
     await page.goto('/');
     await expect(page).toHaveTitle(/DataFlow/);
     await expect(page.locator('.brand-name')).toContainText('DataFlow');
-    await expect(page.locator('.brand-version')).toContainText('v0.3.0');
+    // Assert v0.3.x — avoids churn on every patch bump
+    await expect(page.locator('.brand-version')).toContainText(/v0\.3\./);
   });
 
   test('shows all 4 nav buttons', async ({ page }) => {

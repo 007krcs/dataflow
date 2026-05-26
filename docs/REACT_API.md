@@ -1,6 +1,6 @@
 # DataFlow React API
 
-`@dataflow/react` provides hooks and components that connect DataFlow streams to React 18+ applications.
+`@gridstorm/dataflow-react` provides hooks and components that connect DataFlow streams to React 18+ applications.
 
 ---
 
@@ -58,7 +58,7 @@ interface UseStreamResult {
 #### Basic usage
 
 ```tsx
-import { useStream } from '@dataflow/react';
+import { useStream } from '@gridstorm/dataflow-react';
 
 function LiveTable() {
   const { rows, status, metrics } = useStream({
@@ -173,7 +173,7 @@ interface UseStreamMetricsResult {
 #### Usage
 
 ```tsx
-import { useStreamMetrics } from '@dataflow/react';
+import { useStreamMetrics } from '@gridstorm/dataflow-react';
 
 function MetricsPanel({ config }: { config: StreamConfig }) {
   const { metrics, status } = useStreamMetrics(config);
@@ -212,7 +212,7 @@ interface UseAnomalyResult {
 #### Usage
 
 ```tsx
-import { useAnomaly } from '@dataflow/react';
+import { useAnomaly } from '@gridstorm/dataflow-react';
 
 function AnomalySidebar({ config }: { config: StreamConfig }) {
   const { anomalies, byColumn, clearAll } = useAnomaly(config, 100);
@@ -244,7 +244,7 @@ function AnomalySidebar({ config }: { config: StreamConfig }) {
 A status indicator pill that shows the current connection state with a pulsing dot.
 
 ```tsx
-import { ConnectionBadge } from '@dataflow/react';
+import { ConnectionBadge } from '@gridstorm/dataflow-react';
 
 <ConnectionBadge
   status={status}           // required: StreamStatus
@@ -268,7 +268,7 @@ import { ConnectionBadge } from '@dataflow/react';
 A horizontal bar of 5 metric tiles showing real-time stream health.
 
 ```tsx
-import { MetricBar } from '@dataflow/react';
+import { MetricBar } from '@gridstorm/dataflow-react';
 
 <MetricBar
   metrics={metrics}        // required: StreamMetrics
@@ -294,7 +294,7 @@ Numbers are auto-formatted: `1234567` → `1.2M`, `50000` → `50K`.
 A scrollable feed of anomaly events with severity, method, and message.
 
 ```tsx
-import { AnomalyPanel } from '@dataflow/react';
+import { AnomalyPanel } from '@gridstorm/dataflow-react';
 
 <AnomalyPanel
   anomalies={anomalies}   // required: AnomalyEvent[]
@@ -348,7 +348,7 @@ import type {
   // Config
   BackpressureConfig,
   AnomalyConfig,
-} from '@dataflow/core';
+} from '@gridstorm/dataflow-core';
 ```
 
 ---
@@ -436,7 +436,7 @@ useEffect(() => {
 ### Pattern 6 — Using StreamingEngine directly (no React)
 
 ```ts
-import { StreamingEngine } from '@dataflow/core';
+import { StreamingEngine } from '@gridstorm/dataflow-core';
 
 const engine = new StreamingEngine(
   {

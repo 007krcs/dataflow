@@ -1,12 +1,12 @@
 {
   "name": "dataflow-monorepo",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "pnpm --filter @dataflow/demo dev",
-    "build": "pnpm --filter @dataflow/core build && pnpm --filter @dataflow/react build && pnpm --filter @dataflow/vue build && pnpm --filter @dataflow/svelte build",
-    "build:demo": "pnpm --filter @dataflow/demo build",
+    "dev": "pnpm --filter @gridstorm/dataflow-demo dev",
+    "build": "pnpm --filter @gridstorm/dataflow-core build && pnpm --filter @gridstorm/dataflow-react build && pnpm --filter @gridstorm/dataflow-vue build && pnpm --filter @gridstorm/dataflow-svelte build && pnpm --filter @gridstorm/dataflow-canvas build",
+    "build:demo": "pnpm --filter @gridstorm/dataflow-demo build",
     "build:all": "pnpm build && pnpm build:demo",
     "test": "pnpm --filter @gridstorm/dataflow-react test",
     "lint": "tsc -p tsconfig.base.json --noEmit"
