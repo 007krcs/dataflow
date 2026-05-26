@@ -1,0 +1,23 @@
+{
+  "name": "@gridstorm/dataflow-bench",
+  "version": "0.3.2",
+  "private": true,
+  "type": "module",
+  "description": "Reproducible benchmarks for DataFlow — throughput, anomaly detection, bundle size, and canvas vs DOM FPS",
+  "scripts": {
+    "bench":          "tsx src/index.ts",
+    "bench:json":     "tsx src/index.ts --reporter json",
+    "bench:markdown": "tsx src/index.ts --reporter markdown",
+    "bench:bundle":   "tsx src/index.ts --suite bundle-size",
+    "bench:engine":   "tsx src/index.ts --suite engine-throughput",
+    "bench:anomaly":  "tsx src/index.ts --suite anomaly-throughput"
+  },
+  "dependencies": {
+    "@gridstorm/dataflow-core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx":         "^4.19.0",
+    "typescript":  "^5.6.0"
+  }
+}
