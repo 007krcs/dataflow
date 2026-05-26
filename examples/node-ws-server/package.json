@@ -1,0 +1,19 @@
+{
+  "name": "dataflow-node-ws-server",
+  "version": "0.3.2",
+  "private": true,
+  "type": "module",
+  "description": "Reference Node WebSocket server that emits DataFlow-compatible row frames (financial / iot / ecommerce scenarios). Point any DataFlow WebSocket adapter at it.",
+  "scripts": {
+    "start":          "node server.mjs",
+    "start:financial":"SCENARIO=financial node server.mjs",
+    "start:iot":      "SCENARIO=iot node server.mjs",
+    "start:ecommerce":"SCENARIO=ecommerce node server.mjs"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
