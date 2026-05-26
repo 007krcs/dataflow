@@ -8,7 +8,7 @@ export default defineConfig({
   dts:      true,
   clean:    true,
   splitting: false,
-  sourcemap: true,
+  sourcemap: false,
   external: ['svelte', 'svelte/store', '@gridstorm/dataflow-core'],
   target:   'es2022',
 });

@@ -8,20 +8,16 @@
 export { StreamingEngine }         from './engine.js';
 export type { EngineCallbacks }    from './engine.js';
 
-// Adapters
+// Adapters (public — users may need to subclass or reference these)
 export { SimulatedAdapter }        from './adapters/simulated.js';
 export { WebSocketAdapter }        from './adapters/websocket.js';
 export { SSEAdapter }              from './adapters/sse.js';
 export { HTTPPollingAdapter }      from './adapters/http-polling.js';
 export { WebTransportAdapter, detectBestTransport } from './adapters/web-transport.js';
 
-// Pipeline primitives
-export { RingBuffer }              from './pipeline/ring-buffer.js';
-export { BackpressureController }  from './pipeline/backpressure.js';
-export { DeltaCalculator }         from './pipeline/delta-calculator.js';
-export { AnomalyDetector }         from './pipeline/anomaly-detector.js';
-export { SustainedAnomalyDetector } from './pipeline/sustained-anomaly.js';
-export type { SustainedEvent, SustainedAnomalyOptions, SustainedType } from './pipeline/sustained-anomaly.js';
+// NOTE: Internal pipeline classes (RingBuffer, BackpressureController,
+// DeltaCalculator, AnomalyDetector, SustainedAnomalyDetector) are intentionally
+// NOT exported. They are implementation details of StreamingEngine.
 
 // Schema utilities
 export { inferSchema, mergeSchemas, SchemaInferrer } from './schema/infer.js';

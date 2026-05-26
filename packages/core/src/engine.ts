@@ -2,21 +2,34 @@
 // Unauthorized reproduction or distribution is prohibited.
 /**
  * StreamingEngine — Central orchestrator for the DataFlow pipeline.
- *
- * Pipeline:
- *   Adapter (data source)
- *     └─► BackpressureController (ring buffer + rAF scheduler)
- *           └─► DeltaCalculator (cell-change direction)
- *                 └─► AnomalyDetector (statistical outlier detection)
- *                       └─► consumer callbacks (onRows, onAnomaly, onMetrics)
- *
- * The engine is adapter-agnostic: any source that calls _handleRawRows()
- * feeds the same pipeline.
+ * Internal pipeline stage interfaces are intentionally opaque.
  */
 
 import { BackpressureController } from './pipeline/backpressure.js';
 import { DeltaCalculator }        from './pipeline/delta-calculator.js';
 import { AnomalyDetector }        from './pipeline/anomaly-detector.js';
+
+// ── Internal pipeline stage contracts (opaque — not exported) ─────────────────
+// Structural interfaces hide concrete class names from the declaration output.
+// TypeScript's structural typing ensures the real implementations satisfy them.
+interface _IBp {
+  readonly bufferUtilization: number;
+  readonly totalDropped: number;
+  start(): void;
+  stop(): void;
+  destroy(): void;
+  pushMany(rows: StreamRow[]): void;
+}
+interface _IDelta {
+  diff(row: StreamRow): CellChange[];
+  evict(ids: string[]): void;
+  reset(): void;
+}
+interface _IAnom {
+  process(row: StreamRow, schema: string[]): AnomalyEvent[];
+  getStats(column: string): AnomalyStats | null;
+  reset(): void;
+}
 import { SimulatedAdapter }       from './adapters/simulated.js';
 import { WebSocketAdapter }       from './adapters/websocket.js';
 import { SSEAdapter }             from './adapters/sse.js';
@@ -29,6 +42,7 @@ import type {
   StreamMetrics,
   CellChange,
   AnomalyEvent,
+  AnomalyStats,
   IStreamingEngine,
   StreamStatus,
 } from './types.js';
@@ -47,10 +61,10 @@ export interface EngineCallbacks {
 }
 
 export class StreamingEngine implements IStreamingEngine {
-  // ── Pipeline stages ──────────────────────────────────────────────────────
-  private readonly _bp:    BackpressureController;
-  private readonly _delta: DeltaCalculator;
-  private readonly _anom:  AnomalyDetector;
+  // ── Pipeline stages (typed as opaque interfaces, not concrete classes) ────
+  private readonly _bp:    _IBp;
+  private readonly _delta: _IDelta;
+  private readonly _anom:  _IAnom;
 
   // ── Adapters ──────────────────────────────────────────────────────────────
   private _simulated?: SimulatedAdapter;
