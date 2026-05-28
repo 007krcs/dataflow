@@ -66,4 +66,5 @@ export type {
   SSEAdapterConfig,
   HTTPPollingAdapterConfig,
   WebTransportAdapterConfig,
+  AdapterConfig,
 } from './types.js';
