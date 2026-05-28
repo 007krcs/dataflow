@@ -125,17 +125,17 @@ export function CandlestickChart({ rows, symbol, height = 280 }: CandlestickChar
       <div className="chart-title">{symbol ?? 'OHLC'} — Candlestick</div>
       <ResponsiveContainer width="100%" height={height}>
         <ComposedChart data={bars} margin={{ top: 8, right: 16, bottom: 4, left: 10 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
           <XAxis
             dataKey="label"
-            tick={{ fontSize: 9, fill: '#64748b' }}
+            tick={{ fontSize: 9, fill: 'var(--text-3)' }}
             interval="preserveStartEnd"
             tickLine={false}
-            axisLine={{ stroke: '#334155' }}
+            axisLine={{ stroke: 'var(--border-2)' }}
           />
           <YAxis
             domain={[minP, maxP]}
-            tick={{ fontSize: 10, fill: '#64748b' }}
+            tick={{ fontSize: 10, fill: 'var(--text-3)' }}
             tickFormatter={(v: number) => `$${v >= 1000 ? `${(v/1000).toFixed(1)}K` : v.toFixed(2)}`}
             tickLine={false}
             axisLine={false}
@@ -147,13 +147,13 @@ export function CandlestickChart({ rows, symbol, height = 280 }: CandlestickChar
               const d = payload[0]?.payload as OHLCBar;
               if (!d) return null;
               return (
-                <div style={{ background: '#0f172a', border: '1px solid #334155', borderRadius: 8, padding: '8px 12px', fontSize: 11 }}>
-                  <div style={{ color: '#64748b', marginBottom: 4 }}>{d.label}</div>
-                  <div style={{ color: '#94a3b8' }}>O: <span style={{ color: '#f1f5f9' }}>${d.open.toFixed(2)}</span></div>
-                  <div style={{ color: '#94a3b8' }}>H: <span style={{ color: '#10b981' }}>${d.high.toFixed(2)}</span></div>
-                  <div style={{ color: '#94a3b8' }}>L: <span style={{ color: '#ef4444' }}>${d.low.toFixed(2)}</span></div>
-                  <div style={{ color: '#94a3b8' }}>C: <span style={{ color: d.color }}>${d.close.toFixed(2)}</span></div>
-                  <div style={{ color: '#64748b', marginTop: 4 }}>Vol: {d.volume.toLocaleString()}</div>
+                <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: 8, padding: '8px 12px', fontSize: 11, boxShadow: 'var(--shadow)' }}>
+                  <div style={{ color: 'var(--text-3)', marginBottom: 4 }}>{d.label}</div>
+                  <div style={{ color: 'var(--text-2)' }}>O: <span style={{ color: 'var(--text)' }}>${d.open.toFixed(2)}</span></div>
+                  <div style={{ color: 'var(--text-2)' }}>H: <span style={{ color: 'var(--green)' }}>${d.high.toFixed(2)}</span></div>
+                  <div style={{ color: 'var(--text-2)' }}>L: <span style={{ color: 'var(--red)' }}>${d.low.toFixed(2)}</span></div>
+                  <div style={{ color: 'var(--text-2)' }}>C: <span style={{ color: d.color }}>${d.close.toFixed(2)}</span></div>
+                  <div style={{ color: 'var(--text-3)', marginTop: 4 }}>Vol: {d.volume.toLocaleString()}</div>
                 </div>
               );
             }}

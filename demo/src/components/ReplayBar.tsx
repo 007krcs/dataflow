@@ -42,7 +42,7 @@ export function ReplayBar({
       {isRecording && (
         <span style={{
           width: 8, height: 8, borderRadius: '50%',
-          background: '#ef4444', flexShrink: 0,
+          background: 'var(--red)', flexShrink: 0,
           animation: 'pulse-dot 1.2s ease-in-out infinite',
         }} title="Recording" />
       )}

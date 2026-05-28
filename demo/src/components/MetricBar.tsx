@@ -10,11 +10,11 @@ function fmt(n: number) {
 export function MetricBar({ metrics }: { metrics: StreamMetrics }) {
   const tiles = [
     { label: 'Total Rows',  value: fmt(metrics.totalRows),    hi: false },
-    { label: 'Rows/sec',    value: fmt(metrics.rowsPerSecond), hi: false, color: '#10b981' },
-    { label: 'Dropped',     value: fmt(metrics.droppedRows),   hi: metrics.droppedRows > 0, color: '#f59e0b' },
-    { label: 'Anomalies',   value: String(metrics.anomalyCount), hi: metrics.anomalyCount > 0, color: '#ef4444' },
+    { label: 'Rows/sec',    value: fmt(metrics.rowsPerSecond), hi: false, color: 'var(--green)' },
+    { label: 'Dropped',     value: fmt(metrics.droppedRows),   hi: metrics.droppedRows > 0, color: 'var(--yellow)' },
+    { label: 'Anomalies',   value: String(metrics.anomalyCount), hi: metrics.anomalyCount > 0, color: 'var(--red)' },
     { label: 'Buffer',      value: `${(metrics.bufferUtilization * 100).toFixed(0)}%`,
-      hi: metrics.bufferUtilization > 0.8, color: metrics.bufferUtilization > 0.8 ? '#ef4444' : undefined },
+      hi: metrics.bufferUtilization > 0.8, color: metrics.bufferUtilization > 0.8 ? 'var(--red)' : undefined },
   ];
   return (
     <div className="metric-bar">

@@ -14,7 +14,7 @@ interface SparklineCellProps {
 }
 
 export function SparklineCell({ data, color = '#6366f1', height = 36, width = 90 }: SparklineCellProps) {
-  if (data.length < 2) return <span style={{ color: '#475569', fontSize: 11 }}>—</span>;
+  if (data.length < 2) return <span style={{ color: 'var(--text-3)', fontSize: 11 }}>—</span>;
 
   const chartData = data.map((v, i) => ({ i, v }));
 
@@ -30,8 +30,8 @@ export function SparklineCell({ data, color = '#6366f1', height = 36, width = 90
           isAnimationActive={false}
         />
         <Tooltip
-          contentStyle={{ background: '#1e293b', border: '1px solid #334155', borderRadius: 6, fontSize: 11, padding: '2px 8px' }}
-          itemStyle={{ color: '#f1f5f9' }}
+          contentStyle={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: 6, fontSize: 11, padding: '2px 8px', boxShadow: 'var(--shadow)' }}
+          itemStyle={{ color: 'var(--text)' }}
           labelFormatter={() => ''}
           formatter={(v: number) => [v.toFixed(2), '']}
         />

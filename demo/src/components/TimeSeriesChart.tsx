@@ -73,30 +73,30 @@ export function TimeSeriesChart({
       {title && <div className="chart-title">{title}</div>}
       <ResponsiveContainer width="100%" height={height}>
         <LineChart data={chartData} margin={{ top: 8, right: 16, bottom: 4, left: 10 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
           <XAxis
             dataKey="label"
-            tick={{ fontSize: 10, fill: '#64748b' }}
+            tick={{ fontSize: 10, fill: 'var(--text-3)' }}
             interval="preserveStartEnd"
             tickLine={false}
-            axisLine={{ stroke: '#334155' }}
+            axisLine={{ stroke: 'var(--border-2)' }}
           />
           <YAxis
-            tick={{ fontSize: 10, fill: '#64748b' }}
+            tick={{ fontSize: 10, fill: 'var(--text-3)' }}
             tickFormatter={formatY ?? ((v: number) => v >= 1000 ? `${(v/1000).toFixed(1)}K` : String(Math.round(v)))}
             tickLine={false}
             axisLine={false}
-            label={{ value: yLabel, angle: -90, position: 'insideLeft', fill: '#475569', fontSize: 10 }}
+            label={{ value: yLabel, angle: -90, position: 'insideLeft', fill: 'var(--text-3)', fontSize: 10 }}
             width={52}
           />
           <Tooltip
-            contentStyle={{ background: '#0f172a', border: '1px solid #334155', borderRadius: 8, fontSize: 11 }}
-            itemStyle={{ color: '#f1f5f9' }}
-            labelStyle={{ color: '#64748b', marginBottom: 4 }}
+            contentStyle={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 11, boxShadow: 'var(--shadow)' }}
+            itemStyle={{ color: 'var(--text)' }}
+            labelStyle={{ color: 'var(--text-3)', marginBottom: 4 }}
             formatter={(v: number, name: string) => [formatY ? formatY(v) : v.toFixed(2), name]}
           />
           <Legend
-            wrapperStyle={{ fontSize: 11, paddingTop: 8, color: '#94a3b8' }}
+            wrapperStyle={{ fontSize: 11, paddingTop: 8, color: 'var(--text-2)' }}
             iconType="circle"
             iconSize={6}
           />

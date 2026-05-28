@@ -132,7 +132,7 @@ export function CanvasPage() {
         <div>
           <h1 className="page-title">
             Canvas Renderer
-            <span style={{ marginLeft: 10, fontSize: 11, padding: '2px 8px', borderRadius: 4, background: 'rgba(168,85,247,0.15)', color: '#c084fc', verticalAlign: 'middle' }}>
+            <span style={{ marginLeft: 10, fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 4, background: 'var(--accent-bg)', color: 'var(--accent)', border: '1px solid var(--accent-border)', letterSpacing: '0.04em', verticalAlign: 'middle' }}>
               ALPHA
             </span>
           </h1>

@@ -41,12 +41,12 @@ export function AnomalyHeatmap({ anomalies, height = 200, title = 'Anomalies by 
       <div className="chart-title">{title}</div>
       <ResponsiveContainer width="100%" height={height}>
         <BarChart data={data} layout="vertical" margin={{ top: 4, right: 16, bottom: 4, left: 60 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" horizontal={false} />
-          <XAxis type="number" tick={{ fontSize: 10, fill: '#64748b' }} tickLine={false} axisLine={false} />
-          <YAxis type="category" dataKey="col" tick={{ fontSize: 11, fill: '#94a3b8' }} width={58} tickLine={false} axisLine={false} />
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" horizontal={false} />
+          <XAxis type="number" tick={{ fontSize: 10, fill: 'var(--text-3)' }} tickLine={false} axisLine={false} />
+          <YAxis type="category" dataKey="col" tick={{ fontSize: 11, fill: 'var(--text-2)' }} width={58} tickLine={false} axisLine={false} />
           <Tooltip
-            contentStyle={{ background: '#0f172a', border: '1px solid #334155', borderRadius: 8, fontSize: 11 }}
-            itemStyle={{ color: '#f1f5f9' }}
+            contentStyle={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 11, boxShadow: 'var(--shadow)' }}
+            itemStyle={{ color: 'var(--text)' }}
           />
           <Bar dataKey="critical" name="Critical" stackId="a" fill="#ef4444" isAnimationActive={false} />
           <Bar dataKey="warning"  name="Warning"  stackId="a" fill="#f59e0b" isAnimationActive={false} />
